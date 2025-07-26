@@ -5,6 +5,8 @@ the moon sign that your dream occured in. This is an integrated Dream Journal wi
 a twist. By logging your dreams over time, you will begin to see trends during different
 signs & begin to understand how the moon affects your dream world. 
 
+[ZZZZZ](https://media1.tenor.com/m/YivnomWU15EAAAAd/sweet-dreams.gif)
+
 ## Technologies Used 
 
 

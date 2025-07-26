@@ -1,0 +1,23 @@
+.header {
+display:flex;
+flex-direction: row;
+margin: 10px
+}
+
+.header__title{
+  margin-bottom: 8px;
+}
+
+.header__logo{
+    transform-origin: 23px center;
+    animation: swingAndRotate 3.3s linear infinite;
+}
+
+
+@keyframes swingAndRotate {
+  0% { transform: rotate(0deg) rotateZ(3deg); }  /* Starting position: no full rotation, plus swing */ 
+  25% { transform: rotate(90deg) rotateZ(1deg); } /* Intermediate: partial full rotation, swing left */
+  50% { transform: rotate(180deg) rotateZ(3deg); } /* Midpoint: full rotation, swing right */
+  /* 75% { transform: rotate(270deg) rotateZ(1deg); } Intermediate: partial full rotation, swing left */
+  /* 100% { transform: rotate(3600deg) rotateZ(3deg); }  */
+}

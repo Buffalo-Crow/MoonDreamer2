@@ -1,0 +1,12 @@
+.main{
+    flex-grow: 1;
+     padding: 20px;
+}
+
+.main__buttons{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+   
+}
+

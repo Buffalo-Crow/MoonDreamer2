@@ -1,0 +1,17 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  background-color: #151843;
+  min-height: 100vh;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
