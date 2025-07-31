@@ -1,4 +1,3 @@
-import "./RegisterModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useState } from "react";
 
@@ -39,7 +38,7 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal }) {
     >
       <label className="modal__label">
         Username
-        <input
+        <input className="modal__input"
           autoComplete="username"
           type="text"
           name="username"
@@ -53,7 +52,7 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal }) {
       </label>
       <label className="modal__label">
         Email
-        <input
+        <input className="modal__input"
           autoComplete="email"
           type="email"
           name="email"
@@ -67,7 +66,7 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal }) {
       </label>
       <label className="modal__label">
         Password
-        <input
+        <input className="modal__input" 
           autoComplete="on"
           type="password"
           name="password"
@@ -82,7 +81,7 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal }) {
       </label>
       <label className="modal__label">
         Repeat Password
-        <input
+        <input className="modal__input"
           autoComplete="on"
           type="password"
           name="passwordRepeat"

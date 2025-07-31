@@ -1,0 +1,23 @@
+.dream-detail-card {
+  background-color: black;
+  margin-left: 140px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  margin-top: 36px;
+}
+
+.dream-detail__image {
+  width: 145px;
+  height: 145px;
+  animation: pulse 4s infinite;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      margin: 20px;
+}
+
+.dream-detail__column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

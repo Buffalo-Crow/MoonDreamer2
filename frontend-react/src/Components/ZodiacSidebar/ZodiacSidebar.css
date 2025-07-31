@@ -1,0 +1,34 @@
+.zodiac-sidebar {
+  width: 80px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.zodiac-sidebar__sign_list{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 0;
+  padding-left: 0; 
+  margin-top: 36px;
+
+  list-style: none;
+}
+
+.zodiac-sidebar__sign {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zodiac-sidebar__sign-icon {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.zodiac-sidebar__sign-icon:hover {
+  transform: scale(1.1);
+}

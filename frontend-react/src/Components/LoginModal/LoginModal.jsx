@@ -10,7 +10,8 @@ function LoginModal({ isOpen, closeActiveModal, activeModal }) {
       activeModal={activeModal}
     >
       <label className="modal__label">
-        <input
+        Email
+        <input className="modal__input"
           autoComplete="email"
           type="email"
           name="email"
@@ -19,7 +20,8 @@ function LoginModal({ isOpen, closeActiveModal, activeModal }) {
         />
       </label>
       <label className="modal__label">
-        <input
+        Password
+        <input className="modal__input"
           autoComplete="on"
           type="password"
           name="password"

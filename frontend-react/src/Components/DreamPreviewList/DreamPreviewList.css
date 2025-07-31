@@ -1,0 +1,49 @@
+.dream-preview-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style-type: none;
+  margin-left: 100px;
+  margin-top: 36px;
+}
+
+.dream-preview{
+    background-color: black;
+    border-radius: 10px;
+    max-width: 1050px;
+}
+
+.dream-preview__container{
+    display: flex;
+    max-height: 100px;
+}
+
+.dream-preview__description{
+    font-size: 20px;
+    margin-left: 20px;
+    max-width: 853px;
+}
+
+.dream-preview__content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+.dream-preview__date{
+    display:flex;
+    align-items: flex-end;
+    margin-left: auto;
+    padding-bottom: 10px;
+    padding: 10px;
+}
+
+.dream-preview__moon-icon{
+    height: 30px;
+    width: 30px;
+    margin-bottom: 25px;
+    margin-top: 18px;
+}
