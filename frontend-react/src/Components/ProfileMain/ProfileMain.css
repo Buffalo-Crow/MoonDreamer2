@@ -1,3 +1,13 @@
 .profile-main {
   display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+
+@media screen and (max-width: 885px) {
+  .profile-main{
+    display:flex;
+    flex-direction: column;
+  }
 }

@@ -5,6 +5,7 @@
   flex-direction: row;
   border-radius: 10px;
   margin-top: 36px;
+  padding: 15px;
 }
 
 .dream-detail__image {
@@ -13,11 +14,33 @@
   animation: pulse 4s infinite;
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-      margin: 20px;
+  margin: 20px;
 }
 
 .dream-detail__column {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-left: 10px;
+  width: 225px;
+}
+
+.dream-detail__delete-btn {
+  background-image: url(../../assets/Trash.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 39px;
+  width: 10px;
+  padding: 20px;
+  background-color: transparent;
+}
+
+.dream-detail__edit-btn {
+  background-image: url(../../assets//Edit.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 39px;
+  width: 10px;
+  padding: 20px;
+  background-color: transparent;
 }

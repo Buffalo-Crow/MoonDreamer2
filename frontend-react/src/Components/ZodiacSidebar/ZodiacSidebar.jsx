@@ -1,26 +1,29 @@
-import "./ZodiacSidebar.css"
+import "./ZodiacSidebar.css";
 import { zodiacImages, zodiacSigns } from "../../utils/constants";
 
-function ZodiacSidebar({}) {
+function ZodiacSidebar({ onFilter }) {
   return (
-    <div className="zodiac-sidebar">
-      <section className="zodiac-sidebar__signs">
-        <ul className="zodiac-sidebar__sign_list">
-          {zodiacSigns.map((sign) => {
-            return (
-              <li key={sign} className={`zodiac-sidebar__sign zodiac-sidebar__sign--${sign}`}>
+    <nav className="zodiac-sidebar" aria-label="Zodiac Filter Navigation">
+      <ul className="zodiac-sidebar__sign_list">
+        {zodiacSigns.map((sign) => {
+          return (
+            <li key={sign} className="zodiac-sidebar__sign-item">
+              <button
+                onClick={() => onFilter?.(sign)}
+                className={`zodiac-sidebar__sign-button zodiac-sidebar__sign-button--${sign}`}
+              >
                 <img
                   src={zodiacImages[sign]}
-                  alt={sign}
+                  alt={`${sign} symbol`}
                   className="zodiac-sidebar__sign-icon"
-                />
-              </li>
-
-            );
-          })}
-        </ul>
-      </section>
-    </div>
+                />{" "}
+                {sign}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }
 

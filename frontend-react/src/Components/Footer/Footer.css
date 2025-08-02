@@ -4,4 +4,7 @@
    padding: 35px;
    display: flex;
    justify-content: center;
+   bottom: 0;
+   z-index: 10;
+   position: sticky;
 }

@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { initialDreams } from "../../utils/constants";
 import "./ProfileMain.css";
 import ZodiacSidebar from "../ZodiacSidebar/ZodiacSidebar";
 import DreamPreviewList from "../DreamPreviewList/DreamPreviewList";
 import DreamDetailCard from "../DreamDetailCard/DreamDetailCard";
 
-function ProfileMain() {
+function ProfileMain({
+  handleDeleteDreamClick,
+  handleEditDreamClick,
+  dreams,
+}) {
   const [selectedSign, setSelectedSign] = useState(null); // zodiac filter
   const [selectedDream, setSelectedDream] = useState(null); // full card view
-  const [dreams, setDreams] = useState(initialDreams); // can be fetched
 
-const filteredDreams = selectedSign
+  const filteredDreams = selectedSign
     ? dreams.filter((dreams) => dreams.sign === selectedSign)
     : dreams;
 
@@ -21,6 +23,8 @@ const filteredDreams = selectedSign
 
         {selectedDream ? (
           <DreamDetailCard
+            handleDeleteDreamClick={handleDeleteDreamClick}
+            handleEditDreamClick={handleEditDreamClick}
             dream={selectedDream}
             onBack={() => setSelectedDream(null)}
           />

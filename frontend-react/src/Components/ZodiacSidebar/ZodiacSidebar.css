@@ -5,21 +5,14 @@
   gap: 0.5rem;
 }
 
-.zodiac-sidebar__sign_list{
+.zodiac-sidebar__sign_list {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   padding: 0;
-  padding-left: 0; 
+  padding-left: 0;
   margin-top: 36px;
-
   list-style: none;
-}
-
-.zodiac-sidebar__sign {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .zodiac-sidebar__sign-icon {
@@ -29,6 +22,46 @@
   transition: transform 0.2s ease;
 }
 
+.zodiac-sidebar__sign-button {
+  background-color: transparent;
+}
+
 .zodiac-sidebar__sign-icon:hover {
   transform: scale(1.1);
 }
+
+
+
+
+@media screen and (max-width: 885px){
+  .zodiac-sidebar{
+    width: 100%;
+    display: block;
+
+  }
+
+
+  .zodiac-sidebar__sign_list{
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+}
+/*@media screen and (max-width: 767px) {
+  .zodiac-sidebar__sign-list {
+    display: grid;
+
+    gap: 1rem;
+    flex-direction: row;
+  }
+
+  .zodiac-sidebar {
+    
+    grid-template-columns: repeat(4, 1fr); 
+    grid-template-rows: repeat(3, auto); 
+    gap: 1rem;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    overflow-x: auto;
+  }
+/*}
+

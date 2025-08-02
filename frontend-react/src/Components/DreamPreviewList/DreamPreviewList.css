@@ -47,3 +47,10 @@
     margin-bottom: 25px;
     margin-top: 18px;
 }
+
+@media screen and (max-width: 885px){
+    .dream-preview-list{
+        margin-left: 0;
+        padding:0;
+    }
+}

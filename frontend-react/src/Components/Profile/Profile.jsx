@@ -1,16 +1,27 @@
 import "./Profile.css";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
-import NavBar from "../Navbar/NavBar"
+import NavBar from "../Navbar/NavBar";
 import ProfileMain from "../ProfileMain/ProfileMain";
 
-function Profile({handleAddDreamClick, handleEditProfileClick}) {
+function Profile({
+  handleAddDreamClick,
+  handleEditProfileClick,
+  handleDeleteDreamClick,
+  handleEditDreamClick,
+  dreams,
+}) {
   return (
     <div className="profile">
       <ProfileHeader />
-      <ProfileMain />
+      <ProfileMain
+        dreams={dreams}
+        handleDeleteDreamClick={handleDeleteDreamClick}
+        handleEditDreamClick={handleEditDreamClick}
+      />
       <NavBar
-      handleAddDreamClick={handleAddDreamClick} 
-      handleEditProfileClick={handleEditProfileClick}/>
+        handleAddDreamClick={handleAddDreamClick}
+        handleEditProfileClick={handleEditProfileClick}
+      />
     </div>
   );
 }
