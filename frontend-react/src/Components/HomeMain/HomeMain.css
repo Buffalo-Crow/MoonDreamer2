@@ -5,6 +5,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+   flex-grow: 1;
+   justify-content: center;
 }
 
 .home-main__image {
@@ -50,6 +52,9 @@
 }
 
 @media screen and (max-width: 450px) {
+  .home-main__image{
+    margin-bottom: 50px;
+  }
   .home-main__title {
     font-size: 20px;
     max-width: 350px;

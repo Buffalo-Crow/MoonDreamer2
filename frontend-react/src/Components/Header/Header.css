@@ -2,14 +2,19 @@
   display: flex;
   flex-direction: row;
   margin: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 .header__title {
   margin-bottom: 8px;
   text-align: center;
+  padding: 20px;
+  font-size: 100px;
 }
 
 .header__logo {
+  width: 62px;
   transform-origin: 23px center;
   animation: swingAndRotate 3.3s linear infinite;
 }
@@ -26,4 +31,18 @@
   } /* Midpoint: full rotation, swing right */
   /* 75% { transform: rotate(270deg) rotateZ(1deg); } Intermediate: partial full rotation, swing left */
   /* 100% { transform: rotate(3600deg) rotateZ(3deg); }  */
+}
+
+@media screen and (max-width: 540px) {
+  .header__title {
+    font-size: 41px;
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 344px) {
+  .header__title {
+    font-size: 32px;
+    margin-top: 0;
+  }
 }

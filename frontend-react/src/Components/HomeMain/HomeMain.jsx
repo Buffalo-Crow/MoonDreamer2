@@ -1,5 +1,5 @@
 import "./HomeMain.css";
-import MoonSignDisplay from "../../MoonSignDisplay";
+import MoonSignDisplay from "../MoonSignDisplay";
 import CancerMoon from "../../assets/cancer_dreammoon.svg";
 
 function HomeMain() {

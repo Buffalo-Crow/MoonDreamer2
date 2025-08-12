@@ -4,23 +4,25 @@ import NavBar from "../Navbar/NavBar";
 import ProfileMain from "../ProfileMain/ProfileMain";
 
 function Profile({
-  handleAddDreamClick,
+  handleDreamClick,
   handleEditProfileClick,
   handleDeleteDreamClick,
   handleEditDreamClick,
+  handleSignOutClick,
   dreams,
 }) {
   return (
     <div className="profile">
-      <ProfileHeader />
+      <ProfileHeader handleEditProfileClick={handleEditProfileClick} />
       <ProfileMain
         dreams={dreams}
         handleDeleteDreamClick={handleDeleteDreamClick}
         handleEditDreamClick={handleEditDreamClick}
       />
       <NavBar
-        handleAddDreamClick={handleAddDreamClick}
-        handleEditProfileClick={handleEditProfileClick}
+        handle
+        handleSignOutClick={handleSignOutClick}
+        handleDreamClick={handleDreamClick}
       />
     </div>
   );

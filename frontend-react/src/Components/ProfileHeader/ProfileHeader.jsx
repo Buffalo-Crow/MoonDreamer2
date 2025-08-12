@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import "./ProfileHeader.css";
 import { Link } from "react-router-dom";
 import BoldLogo from "../../assets/bold_logo.svg";
 import Avatar from "../../assets/avatar.svg";
+import { UserContext } from "../../contexts/userContext";
 
-function ProfileHeader() {
+function ProfileHeader({ handleEditProfileClick }) {
+  const { currentUser } = useContext(UserContext);
   return (
     <div className="profile-header">
       <div className="profile-header__content">
@@ -17,10 +20,14 @@ function ProfileHeader() {
         </Link>
       </div>
       <div className="profile-header__container">
-        <Link to="/profile">
-          <img className="profile__avatar" src={Avatar} alt="" />
-        </Link>
-        <p className="profile-header__username">Username</p>
+        <img
+          onClick={handleEditProfileClick}
+          className="profile__avatar"
+          src={currentUser.avatarUrl || Avatar}
+          alt=""
+        />
+
+        <p className="profile-header__username">{currentUser.username}</p>
       </div>
     </div>
   );

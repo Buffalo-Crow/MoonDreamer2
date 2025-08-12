@@ -1,29 +1,43 @@
-const STORAGE_KEY = 'dreams';
+const DREAMS_KEY = "dreamsByUser";
 
-function getStoredDreams() {
-  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+export function loadAllUserDreams() {
+  return JSON.parse(localStorage.getItem(DREAMS_KEY)) || {};
 }
 
-function saveStoredDreams(dreams) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(dreams));
+export function saveAllUserDreams(data) {
+  localStorage.setItem(DREAMS_KEY, JSON.stringify(data));
 }
 
-const generateId = () => Date.now();
+export function loadDreamsForUser(username) {
+  const allDreams = loadAllUserDreams();
+  return allDreams[username] || [];
+}
 
-export function saveDreamToLocalStorage(dream) {
-  const existing = getStoredDreams();
-  const newDream = { ...dream, id: generateId() };
-  const updated = [...existing, newDream];
-  saveStoredDreams(updated);
+export function saveDreamForUser(username, dream) {
+  const allDreams = loadAllUserDreams();
+  const newDream = { ...dream, id: Date.now() };
+  const userDreams = allDreams[username] || [];
+  allDreams[username] = [...userDreams, newDream];
+  saveAllUserDreams(allDreams);
   return newDream;
 }
 
-export function loadDreamsFromLocalStorage() {
-  return getStoredDreams();
-}
+export function deleteDreamForUser(username, dreamId) {
+  const allDreams = loadAllUserDreams();
+  console.log("Current allDreams:", allDreams);
+  console.log("Username:", username);
 
-export function deleteDreamFromLocalStorage(id) {
-  const existing = getStoredDreams();
-  const updated = existing.filter(dream => dream.id !== id);
-  saveStoredDreams(updated);
+  if (!allDreams[username]) {
+    console.warn(`No dreams found for user: ${username}`);
+    return [];
+  }
+   console.log("Dreams for user before deletion:", allDreams[username]);
+  console.log("dreamId to delete:", dreamId);
+
+  allDreams[username] = allDreams[username].filter(
+    (d) => Number(d.id) !== Number(dreamId)
+  );
+
+  saveAllUserDreams(allDreams);
+  return allDreams[username];
 }

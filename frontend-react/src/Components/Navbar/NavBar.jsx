@@ -1,33 +1,55 @@
 import "./Navbar.css";
+import { useState } from "react";
+import Menu from "../Menu/Menu";
 import { Link } from "react-router-dom";
-import Search from "../../assets/search.svg";
-import Menu from "../../assets/menu.svg";
-import AddDream from "../../assets/file_plus.svg";
-import User from "../../assets/User.svg";
 
-function NavBar({ handleAddDreamClick, handleEditProfileClick }) {
+function NavBar({
+  handleDreamClick,
+  handleEditProfileClick,
+  handleSignOutClick,
+}) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
     <nav className="navbar">
       <ul className="navbar__list">
         <li className="navbar__list-item">
-          <img
-            onClick={handleEditProfileClick}
-            src={User}
-            className="navbar__add-dream"
-          ></img>
+          <Link to="/profile">
+            {" "}
+            <button className="navbar__user-profile"></button>
+          </Link>
         </li>
         <li className="navbar__list-item">
-          <img
-            onClick={handleAddDreamClick}
-            src={AddDream}
+          <button
+            onClick={handleDreamClick}
             className="navbar__add-dream"
-          ></img>
+          ></button>
         </li>
+        {/* <li> This will be for when I implement the searching ability 
+          <button src={Search} className="navbar__search"></button>
+        </li> */}
         <li>
-          <img src={Search} className="navbar__search"></img>
-        </li>
-        <li>
-          <img src={Menu} className="navbar__menu"></img>
+          <button onClick={toggleMenu} className="navbar__menu"></button>{" "}
+          {isMenuOpen && (
+            <Menu
+              onClose={closeMenu}
+              onEditProfileClick={() => {
+                handleEditProfileClick();
+                closeMenu();
+              }}
+              onAddDreamClick={() => {
+                handleDreamClick();
+                closeMenu();
+              }}
+              onSignOutClick={() => {
+                handleSignOutClick();
+                closeMenu();
+              }}
+            />
+          )}
         </li>
       </ul>
     </nav>
