@@ -17,7 +17,7 @@ function Profile({
       <ProfileMain
         dreams={dreams}
         handleDeleteDreamClick={handleDeleteDreamClick}
-        handleEditDreamClick={handleEditDreamClick}
+        onEditDreamClick={handleEditDreamClick}
       />
       <NavBar
         handle

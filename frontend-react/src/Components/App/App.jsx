@@ -7,7 +7,7 @@ import Footer from "../Footer/Footer";
 import Main from "../Main/Main";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
-import HomePage from "../Homepage/Homepage";
+import HomePage from "../Homepage/HomePage";
 import Profile from "../Profile/Profile";
 import DreamModal from "../DreamModal/DreamModal";
 import EditProfile from "../EditProfileModal/EditProfile";
@@ -17,8 +17,10 @@ import {
   loadDreamsForUser,
   saveDreamForUser,
   deleteDreamForUser,
+  updateDreamForUser,
 } from "../../utils/localDreamStorage";
-import { mockRegister, mockSignIn } from "../../utils/mockAuth";
+import { mockSignIn } from "../../utils/mockAuth";
+import { MoonProvider } from "../../contexts/moonSignContext";
 import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
 import { DreamContext } from "../../contexts/dreamContext";
 import { UserContext } from "../../contexts/userContext";
@@ -30,6 +32,7 @@ function App() {
     setDreamToDelete,
     dreamToDelete,
     setSelectedDream,
+    updateDream,
   } = useContext(DreamContext);
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const { activeModal, openModal, closeModal } = useModal();
@@ -37,17 +40,6 @@ function App() {
   const [dreamBeingEdited, setDreamBeingEdited] = useState(null);
   const navigate = useNavigate();
 
-  // load user on first mount
-  // useEffect(() => {
-  //   const savedUser = JSON.parse(localStorage.getItem("currentUser"));
-  //   if (savedUser?.username) {
-  //     setCurrentUser(savedUser);
-  //   }
-  //   setLoadingUser(false);
-  // }, [setCurrentUser]);
-  // if (loadingUser) {
-  //   return null;
-  // }
 
   useEffect(() => {
     setIsLoggedIn(!!currentUser?.username);
@@ -77,10 +69,15 @@ function App() {
     setDreams((prevDreams) => [newDream, ...prevDreams]);
   };
 
-  function handleEditDream(updatedDream) {
-    setDreams((prev) =>
-      prev.map((dream) => (dream.id === updatedDream.id ? updatedDream : dream))
+  function handleEditDream(updatedDreamData) {
+    if (!currentUser) return;
+    const updatedDream = updateDreamForUser(
+      currentUser.username,
+      updatedDreamData
     );
+    updateDream(updatedDream);
+    closeModal();
+    setDreamBeingEdited(null);
   }
 
   const handleDeleteDream = () => {
@@ -117,16 +114,11 @@ function App() {
     navigate("/");
   }
 
-  function handleRegister(credentials) {
-    try {
-      const newUser = mockRegister(credentials);
-      setCurrentUser(newUser);
-      setIsLoggedIn(true);
-      navigate("/home");
-      closeModal();
-    } catch (e) {
-      alert(e.message);
-    }
+  function handleRegister(user) {
+    setCurrentUser(user);
+    setIsLoggedIn(true);
+    navigate("/home");
+    closeModal();
   }
 
   function handleProfileUpdate(updatedFields) {
@@ -179,64 +171,63 @@ function App() {
     openModal("sign-out");
   };
 
-  // // functions
-  // const handleFilter = (sign) => {
-  //     console.log("Filtering dreams by:", sign);
-
+  
   return (
     <>
       <div className="app">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <div className="app__container-landingpage">
-                  <Header />
-                  {/* <MoonSignDisplay /> */}
-                  <Main
-                    handleLoginClick={handleLoginClick}
-                    handleRegisterClick={handleRegisterClick}
-                    closeActiveModal={closeModal}
-                  />
-                  <Footer />
-                </div>
-              </>
-            }
-          ></Route>
-          <Route
-            path="/home"
-            element={
-              <>
-                <ProtectedRoute>
-                  <HomePage
-                    handleSignOutClick={handleSignOutClick}
-                    handleDreamClick={handleDreamClick}
-                    handleEditProfileClick={handleEditProfileClick}
-                  />
-                </ProtectedRoute>
-              </>
-            }
-          ></Route>
-          <Route
-            path="/profile"
-            element={
-              <>
-                <ProtectedRoute>
-                  <Profile
-                    dreams={dreams}
-                    setDreams={setDreams}
-                    handleDreamClick={handleDreamClick}
-                    handleEditProfileClick={handleEditProfileClick}
-                    handleSignOutClick={handleSignOutClick}
-                    handleDeleteDreamClick={handleDeleteDreamClick}
-                    handleEditDreamClick={handleEditDreamClick}
-                  />
-                </ProtectedRoute>
-              </>
-            }
-          ></Route>
-        </Routes>
+        <MoonProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <div className="app__container-landingpage">
+                    <Header />
+                    {/* <MoonSignDisplay /> */}
+                    <Main
+                      handleLoginClick={handleLoginClick}
+                      handleRegisterClick={handleRegisterClick}
+                      closeActiveModal={closeModal}
+                    />
+                    <Footer />
+                  </div>
+                </>
+              }
+            ></Route>
+            <Route
+              path="/home"
+              element={
+                <>
+                  <ProtectedRoute>
+                    <HomePage
+                      handleSignOutClick={handleSignOutClick}
+                      handleDreamClick={handleDreamClick}
+                      handleEditProfileClick={handleEditProfileClick}
+                    />
+                  </ProtectedRoute>
+                </>
+              }
+            ></Route>
+            <Route
+              path="/profile"
+              element={
+                <>
+                  <ProtectedRoute>
+                    <Profile
+                      dreams={dreams}
+                      setDreams={setDreams}
+                      handleDreamClick={handleDreamClick}
+                      handleEditProfileClick={handleEditProfileClick}
+                      handleSignOutClick={handleSignOutClick}
+                      handleDeleteDreamClick={handleDeleteDreamClick}
+                      handleEditDreamClick={handleEditDreamClick}
+                    />
+                  </ProtectedRoute>
+                </>
+              }
+            ></Route>
+          </Routes>
+        </MoonProvider>
         <EditProfile
           closeActiveModal={closeModal}
           isOpen={activeModal === "edit-profile"}

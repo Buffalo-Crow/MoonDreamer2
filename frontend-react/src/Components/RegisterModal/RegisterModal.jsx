@@ -1,5 +1,5 @@
+import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useState, useEffect } from "react";
 
 function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
   const [formData, setFormData] = useState({
@@ -7,26 +7,51 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
     email: "",
     password: "",
     passwordRepeat: "",
-    dateOfBirth: "",
-    timeOfBirth: "",
-    locationOfBirth: "",
     avatarUrl: "",
   });
 
   const [passwordError, setPasswordError] = useState("");
   const [avatarError, setAvatarError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
 
+  // Load users from localStorage
+  const loadUsers = () => JSON.parse(localStorage.getItem("users")) || [];
+
+  // Validate unique username
+  const validateUsername = (name) => {
+    const users = loadUsers();
+    const exists = users.some(
+      (u) => u.username.trim().toLowerCase() === name.trim().toLowerCase()
+    );
+
+    if (exists) {
+      setUsernameError("Username already exists");
+      return false;
+    }
+    setUsernameError("");
+    return true;
+  };
+
+  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (name === "username" && value.trim() !== "") {
+      validateUsername(value);
+    }
   };
 
+  // Handle form submit
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
+
+    if (!validateUsername(formData.username)) return;
+
     if (formData.password !== formData.passwordRepeat) {
       setPasswordError("Passwords do not match");
       return;
     }
+
     if (formData.avatarUrl.trim() !== "") {
       try {
         new URL(formData.avatarUrl);
@@ -35,20 +60,41 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
         return;
       }
     }
+
     setPasswordError("");
-    const { username, email, password } = formData;
-    onRegister(formData);
-    setFormData({
-      username: "",
-      email: "",
-      password: "",
-      passwordRepeat: "",
-      dateOfBirth: "",
-      timeOfBirth: "",
-      locationOfBirth: "",
-      avatarUrl: "",
-    });
-    closeActiveModal();
+    setAvatarError("");
+
+    try {
+      const users = loadUsers();
+
+      const newUser = {
+        id: Date.now(),
+        username: formData.username.trim(),
+        email: formData.email.trim(),
+        password: formData.password, // 
+        avatarUrl: formData.avatarUrl.trim(),
+      };
+
+      users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("currentUser", JSON.stringify(newUser));
+
+      onRegister(newUser);
+
+      // Reset form
+      setFormData({
+        username: "",
+        email: "",
+        password: "",
+        passwordRepeat: "",
+        avatarUrl: "",
+      });
+
+      closeActiveModal();
+    } catch (error) {
+      console.error("Error registering user:", error);
+      alert("There was an error registering your account. Please try again.");
+    }
   };
 
   return (
@@ -74,6 +120,7 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
           minLength={3}
           maxLength={20}
         />
+        {usernameError && <span className="modal__error">{usernameError}</span>}
       </label>
       <label className="modal__label">
         Email
@@ -122,42 +169,6 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
         />
       </label>
       <label className="modal__label">
-        Date of Birth
-        <input
-          className="modal__input"
-          type="date"
-          name="dateOfBirth"
-          placeholder="Date of Birth"
-          value={formData.dateOfBirth}
-          required
-          onChange={handleChange}
-        />
-      </label>{" "}
-      <label className="modal__label">
-        Time Of Birth
-        <input
-          className="modal__input"
-          type="text"
-          name="timeOfBirth"
-          placeholder="Time of birth"
-          value={formData.timeOfBirth}
-          required
-          onChange={handleChange}
-        />
-      </label>{" "}
-      <label className="modal__label">
-        Location Of Birth
-        <input
-          className="modal__input"
-          type="text"
-          name="locationOfBirth"
-          placeholder="Location of Birth"
-          required
-          value={formData.locationOfBirth}
-          onChange={handleChange}
-        />
-      </label>
-      <label className="modal__label">
         Avatar URL
         <input
           className="modal__input"
@@ -166,7 +177,7 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
           placeholder="Image URL"
           value={formData.avatarUrl}
           onChange={handleChange}
-        />{" "}
+        />
         {avatarError && <span className="modal__error">{avatarError}</span>}
       </label>
     </ModalWithForm>

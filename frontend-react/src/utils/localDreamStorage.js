@@ -22,6 +22,28 @@ export function saveDreamForUser(username, dream) {
   return newDream;
 }
 
+export function updateDreamForUser(username, updatedDream) {
+  const allDreams = loadAllUserDreams();
+  const userDreams = allDreams[username] || [];
+ console.log("Updating dream:", updatedDream);
+  console.log("Existing dreams:", userDreams);
+
+  let savedDream;
+  const updatedDreams = userDreams.map((dream) => {
+    if (dream.id === updatedDream.id) {
+      savedDream = { ...dream, ...updatedDream };
+      return savedDream;
+    }
+    return dream;
+  }).filter(Boolean);
+
+  allDreams[username] = updatedDreams;
+  saveAllUserDreams(allDreams);
+
+  return savedDream; 
+}
+
+
 export function deleteDreamForUser(username, dreamId) {
   const allDreams = loadAllUserDreams();
   console.log("Current allDreams:", allDreams);

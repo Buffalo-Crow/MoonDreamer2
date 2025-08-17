@@ -1,7 +1,8 @@
 .zodiac-sidebar {
   justify-content: space-between;
   display: flex;
-  width: 80px;
+  flex-direction: column;
+  height: 100%;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
 }
@@ -14,6 +15,20 @@
   padding-left: 0;
   margin-top: 36px;
   list-style: none;
+}
+
+.zodiac-sidebar__all-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: auto;
+  padding: 16px 0;
+}
+
+.zodiac-sidebar__all-button {
+  height: 35px;
+  width: 100%;
+  color: black;
+  background-color: #f19edc;
 }
 
 .zodiac-sidebar__sign-icon {
@@ -47,16 +62,16 @@
     margin-top: 0;
     gap: 10px;
   }
-  .zodiac-sidebar__sign-icon {
-  }
+
   .zodiac-sidebar {
+    height: 319px;
+    align-items: center;
     display: flex;
-    justify-content: center;
     width: 100%;
     padding: 1.5rem;
   }
   .zodiac-sidebar__sign-button {
-    padding: 1px 17px;
+    padding: 1px 20px;
   }
   .zodiac-sidebar__sign-item {
     flex: 0 0 auto;
@@ -72,5 +87,9 @@
   .zodiac-sidebar {
     padding: 0;
     padding-bottom: 10px;
+  }
+
+  .zodiac-sidebar__all-button-container {
+    margin-bottom: 0;
   }
 }

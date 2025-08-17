@@ -5,7 +5,7 @@ function DreamDetailCard({
   dream,
   onBack,
   handleDeleteDreamClick,
-  handleEditDreamClick,
+  onEditDreamClick
 }) {
   const { date, summary, moonSign, categories, tags } = dream;
   const moonImage = moonSignImages[moonSign?.toLowerCase()];
@@ -25,10 +25,10 @@ function DreamDetailCard({
 
       <div className="dream-detail__scrollable-content">
         <div className="dream-detail__container">
-          <p>Summary: {dream.summary}</p>
-          <p>Moon-Sign: {dream.moonSign}</p>
-          <p>Categories: {dream.categories}</p>
-          <p>Tags: {dream.tags}</p>
+          <p className="dream-detail__summary">Summary: {dream.summary}</p>
+          <p className="dream-detail__moon-sign">Moon-Sign: {dream.moonSign}</p>
+          <p className="dream-detail__categories">Categories: {dream.categories}</p>
+          <p className="dream-detail__tags">Tags: {dream.tags}</p>
         </div>
       </div>
 
@@ -39,7 +39,7 @@ function DreamDetailCard({
             className="dream-detail__delete-btn"
           ></button>
           <button
-            onClick={handleEditDreamClick}
+          onClick={() => onEditDreamClick(dream)}
             className="dream-detail__edit-btn"
           ></button>
         </div>

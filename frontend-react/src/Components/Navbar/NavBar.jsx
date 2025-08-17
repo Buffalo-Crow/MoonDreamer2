@@ -28,9 +28,6 @@ function NavBar({
             className="navbar__add-dream"
           ></button>
         </li>
-        {/* <li> This will be for when I implement the searching ability 
-          <button src={Search} className="navbar__search"></button>
-        </li> */}
         <li>
           <button onClick={toggleMenu} className="navbar__menu"></button>{" "}
           {isMenuOpen && (

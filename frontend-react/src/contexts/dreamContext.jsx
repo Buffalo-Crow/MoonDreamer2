@@ -3,9 +3,23 @@ import { useState, createContext } from "react";
 export const DreamContext = createContext();
 
 export function DreamProvider({ children }) {
-  const [dreams, setDreams] = useState();
+  const [dreams, setDreams] = useState([]);
   const [selectedDream, setSelectedDream] = useState(null);
   const [dreamToDelete, setDreamToDelete] = useState(null);
+  const [filterSign, setFilterSign] = useState("ALL");
+
+  const updateDream = (updatedDream) => {
+    setDreams((prevDreams) =>
+      prevDreams.map((dream) =>
+        dream && dream.id === updatedDream.id ? updatedDream : dream
+      )
+    );
+    setSelectedDream((prevSelected) =>
+      prevSelected && prevSelected.id === updatedDream.id
+        ? updatedDream
+        : prevSelected
+    );
+  };
 
   return (
     <DreamContext.Provider
@@ -16,7 +30,9 @@ export function DreamProvider({ children }) {
         setSelectedDream,
         dreamToDelete,
         setDreamToDelete,
-        setDreamToDelete,
+        updateDream,
+        filterSign,
+        setFilterSign,
       }}
     >
       {children}

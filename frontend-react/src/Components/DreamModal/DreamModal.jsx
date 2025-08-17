@@ -24,7 +24,8 @@ function DreamModal({
 
   useEffect(() => {
     if (isOpen) {
-      if (isEditMode) {
+      console.log("Editing dream:", dreamToEdit);
+      if (isEditMode && dreamToEdit && dreamToEdit.id) {
         setFormData({
           date: dreamToEdit.date || "",
           summary: dreamToEdit.summary || "",

@@ -1,12 +1,25 @@
+import { useContext } from "react";
+import { DreamContext } from "../../contexts/dreamContext";
 import "./DreamPreviewList.css";
 import Moon from "../../assets/Moon.svg";
 
-function DreamPreviewList({ dreams, onSelectDream }) {
-  console.log("🧠 Dreams in Preview List:", dreams);
+function DreamPreviewList({ onSelectDream }) {
+  const { dreams, filterSign } = useContext(DreamContext);
+
+  const displayedDreams =
+    filterSign === "ALL"
+      ? [...dreams].sort((a, b) => new Date(b.date) - new Date(a.date))
+      : dreams.filter(
+          (dream) =>
+            dream.moonSign &&
+            dream.moonSign.toLowerCase().trim() ===
+              filterSign.toLowerCase().trim()
+        );
+  console.log("Dreams in Preview List", displayedDreams);
   return (
     <>
       <ul className="dream-preview-list">
-        {dreams.map((dream) => (
+        {displayedDreams.map((dream) => (
           <li
             key={dream.id}
             className="dream-preview"

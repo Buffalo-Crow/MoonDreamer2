@@ -23,54 +23,6 @@ import capricornMoon from "../assets/images/Capricorn_Moon.svg";
 import aquariusMoon from "../assets/images/Aquarius_Moon.svg";
 import piscesMoon from "../assets/images/Pisces_Moon.svg";
 
-export const initialDreams = [
-  {
-    id: 1,
-    summary:
-      "I was flying over a glowing city. And suddenly a green frog appeared in front of me. He was talking. And the dream went on as if it was real life that I was in, Then there awakend a snake yellow fish ",
-    keywords: "flying, glowing, city",
-    category: "real life, fantasy, ",
-    date: "2025-07-25",
-    moonSign: "/assets/moon-phase.svg",
-    sign: "leo",
-  },
-  {
-    id: 2,
-    summary: "Spoke to a giant owl in a forest.",
-    keywords: "flying, glowing, city",
-    category: "real life, fantasy, ",
-    date: "2025-07-24",
-    moonSign: "/assets/moon-phase.svg",
-    sign: "cancer",
-  },
-  {
-    id: 3,
-    summary: "Spoke to a giant owl in a forest.",
-    keywords: "flying, glowing, city",
-    category: "real life, fantasy, ",
-    date: "2025-07-24",
-    moonSign: "/assets/moon-phase.svg",
-    sign: "aries",
-  },
-  {
-    id: 4,
-    summary: "Was wearing someone elses face at a party ",
-    keywords: "flying, glowing, city",
-    category: "real life, fantasy, ",
-    date: "2025-07-24",
-    moonSign: "/assets/moon-phase.svg",
-    sign: "aries",
-  },
-  {
-    id: 5,
-    summary: "Was wearing someone elses face at a party ",
-    keywords: "flying, glowing, city",
-    category: "real life, fantasy, ",
-    date: "2025-07-24",
-    moonSign: "/assets/moon-phase.svg",
-    sign: "aries",
-  },
-];
 
 export const zodiacImages = {
   aries,

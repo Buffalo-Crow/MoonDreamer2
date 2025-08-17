@@ -5,7 +5,7 @@ import DreamPreviewList from "../DreamPreviewList/DreamPreviewList";
 import DreamDetailCard from "../DreamDetailCard/DreamDetailCard";
 import { DreamContext } from "../../contexts/dreamContext";
 
-function ProfileMain({ handleDeleteDreamClick, handleEditDreamClick, dreams }) {
+function ProfileMain({ handleDeleteDreamClick, onEditDreamClick, dreams }) {
   const [selectedSign, setSelectedSign] = useState(null);
   const { selectedDream, setSelectedDream } = useContext(DreamContext);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 885);
@@ -30,7 +30,7 @@ function ProfileMain({ handleDeleteDreamClick, handleEditDreamClick, dreams }) {
       {selectedDream ? (
         <DreamDetailCard
           handleDeleteDreamClick={handleDeleteDreamClick}
-          handleEditDreamClick={handleEditDreamClick}
+          onEditDreamClick={onEditDreamClick}
           dream={selectedDream}
           onBack={() => setSelectedDream(null)}
         />
