@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { getMoonSignFromLocationAndDate } from "../../utils/api";
+import { getMoonSignFromLocationAndDate } from "../../utils/getMoonSignFromLocationAndDate";
 
 function DreamModal({
   isOpen,

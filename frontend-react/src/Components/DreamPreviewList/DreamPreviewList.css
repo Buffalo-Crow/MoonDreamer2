@@ -57,6 +57,14 @@
     margin-top: -8px;
     margin-bottom: 0;
   }
+
+  .dream-preview__container {
+    height: 80px;
+  }
+
+  .dream-preview__description {
+    font-size: 17px;
+  }
 }
 
 @media screen and (max-width: 581px) {

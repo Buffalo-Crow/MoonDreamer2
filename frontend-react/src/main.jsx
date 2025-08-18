@@ -8,15 +8,15 @@ import { ModalProvider } from "./contexts/modalContext";
 import { DreamProvider } from "./contexts/dreamContext";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <BrowserRouter>
-      <UserProvider>
-        <ModalProvider>
-          <DreamProvider>
-            <App />
-          </DreamProvider>
-        </ModalProvider>
-      </UserProvider>
-    </BrowserRouter>
-  </StrictMode>
+  // <StrictMode>
+  <BrowserRouter>
+    <UserProvider>
+      <ModalProvider>
+        <DreamProvider>
+          <App />
+        </DreamProvider>
+      </ModalProvider>
+    </UserProvider>
+  </BrowserRouter>
+  // </StrictMode>
 );

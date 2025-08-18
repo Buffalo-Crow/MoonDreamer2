@@ -126,17 +126,16 @@ animation: pulse 4s infinite; */
     gap: 1rem;
   }
 
-
-  .dream-detail__column{
+  .dream-detail__column {
     padding-left: 2px;
     padding-bottom: 0;
   }
 
-  .dream-detail__scrollable-content{
+  .dream-detail__scrollable-content {
     padding: 20px 0;
   }
 
-  .dream-detail__image{
+  .dream-detail__image {
     width: 80px;
     height: 80px;
     margin-left: 0;

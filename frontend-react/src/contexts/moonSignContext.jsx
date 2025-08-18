@@ -15,7 +15,7 @@ export function MoonProvider({ children }) {
     async function fetchMoonSign() {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:3001/api/moon-sign");
+        const res = await fetch("/api/moon-sign");
         const data = await res.json();
 
         if (!data?.moonSign) {
