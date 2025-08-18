@@ -40,7 +40,6 @@ function App() {
   const [dreamBeingEdited, setDreamBeingEdited] = useState(null);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     setIsLoggedIn(!!currentUser?.username);
   }, [currentUser]);
@@ -171,7 +170,6 @@ function App() {
     openModal("sign-out");
   };
 
-  
   return (
     <>
       <div className="app">
