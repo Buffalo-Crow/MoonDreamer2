@@ -7,7 +7,7 @@ import Footer from "../Footer/Footer";
 import Main from "../Main/Main";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
-import HomePage from "../Homepage/HomePage";
+import HomePage from "../HomePage/HomePage";
 import Profile from "../Profile/Profile";
 import DreamModal from "../DreamModal/DreamModal";
 import EditProfile from "../EditProfileModal/EditProfile";
