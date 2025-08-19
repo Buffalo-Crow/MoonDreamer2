@@ -7,7 +7,7 @@ import Footer from "../Footer/Footer";
 import Main from "../Main/Main";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal.jsx";
-import HomePage from "../Homepage/HomePage.jsx";
+import Home from "../Home/Home.jsx";
 import Profile from "../Profile/Profile.jsx";
 import DreamModal from "../DreamModal/DreamModal.jsx";
 import EditProfile from "../EditProfileModal/EditProfile.jsx";
@@ -197,7 +197,7 @@ function App() {
               element={
                 <>
                   <ProtectedRoute>
-                    <HomePage
+                    <Home
                       handleSignOutClick={handleSignOutClick}
                       handleDreamClick={handleDreamClick}
                       handleEditProfileClick={handleEditProfileClick}

@@ -1,15 +1,15 @@
-import "./HomePage.css";
+import "./Home.css";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import HomeMain from "../HomeMain/HomeMain";
 import NavBar from "../Navbar/NavBar";
 
-function HomePage({
+function Home({
   handleDreamClick,
   handleEditProfileClick,
   handleSignOutClick,
 }) {
   return (
-    <div className="homepage__wrapper">
+    <div className="home__wrapper">
       <ProfileHeader handleEditProfileClick={handleEditProfileClick} />
 
       <HomeMain />
@@ -21,4 +21,4 @@ function HomePage({
     </div>
   );
 }
-export default HomePage;
+export default Home;
