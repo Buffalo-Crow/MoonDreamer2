@@ -6,24 +6,24 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Main from "../Main/Main";
 import RegisterModal from "../RegisterModal/RegisterModal";
-import LoginModal from "../LoginModal/LoginModal";
-import HomePage from "../HomePage/HomePage";
-import Profile from "../Profile/Profile";
-import DreamModal from "../DreamModal/DreamModal";
-import EditProfile from "../EditProfileModal/EditProfile";
-import SignOutModal from "../SignOutModal/SignOutModal";
-import DeleteDreamModal from "../DeleteDreamModal/DeleteDreamModal";
+import LoginModal from "../LoginModal/LoginModal.jsx";
+import HomePage from "../Homepage/HomePage.jsx";
+import Profile from "../Profile/Profile.jsx";
+import DreamModal from "../DreamModal/DreamModal.jsx";
+import EditProfile from "../EditProfileModal/EditProfile.jsx";
+import SignOutModal from "../SignOutModal/SignOutModal.jsx";
+import DeleteDreamModal from "../DeleteDreamModal/DeleteDreamModal.jsx";
 import {
   loadDreamsForUser,
   saveDreamForUser,
   deleteDreamForUser,
   updateDreamForUser,
 } from "../../utils/localDreamStorage";
-import { mockSignIn } from "../../utils/mockAuth";
-import { MoonProvider } from "../../contexts/moonSignContext";
-import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
-import { DreamContext } from "../../contexts/dreamContext";
-import { UserContext } from "../../contexts/userContext";
+import { mockSignIn } from "../../utils/mockAuth.js";
+import { MoonProvider } from "../../contexts/moonSignContext.jsx";
+import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute.jsx";
+import { DreamContext } from "../../contexts/dreamContext.jsx";
+import { UserContext } from "../../contexts/userContext.jsx";
 
 function App() {
   const {
