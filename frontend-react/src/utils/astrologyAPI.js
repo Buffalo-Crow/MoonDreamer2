@@ -1,5 +1,5 @@
 export async function fetchDreamMoonSign({ date, lat, lng }) {
-  const response = await fetch("/api/moon-dream", {
+  const response = await fetch("/api/moon-sign/dream", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
