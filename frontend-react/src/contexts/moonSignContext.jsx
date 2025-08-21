@@ -27,7 +27,7 @@ export function MoonProvider({ children }) {
       }
 
       try {
-        const res = await fetch("http://localhost:3001/api/moon-sign");
+        const res = await fetch("/api/moon-sign");;
         const data = await res.json();
 
         if (!data?.moonSign) throw new Error("Moon sign missing from API");
