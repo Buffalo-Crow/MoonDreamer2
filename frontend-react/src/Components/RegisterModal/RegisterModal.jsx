@@ -1,7 +1,11 @@
 import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { loadUsers, saveUsers } from "../../utils/mockAuth";
 
 function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
+  
+  const [loading, setIsLoading]= useState(false);
+  
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -13,9 +17,6 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
   const [passwordError, setPasswordError] = useState("");
   const [avatarError, setAvatarError] = useState("");
   const [usernameError, setUsernameError] = useState("");
-
-  // Load users from localStorage
-  const loadUsers = () => JSON.parse(localStorage.getItem("users")) || [];
 
   // Validate unique username
   const validateUsername = (name) => {
@@ -44,44 +45,34 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
   // Handle form submit
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
-
     if (!validateUsername(formData.username)) return;
-
     if (formData.password !== formData.passwordRepeat) {
       setPasswordError("Passwords do not match");
       return;
     }
-
     if (formData.avatarUrl.trim() !== "") {
       try {
         new URL(formData.avatarUrl);
-      } catch (_) {
+      } catch {
         setAvatarError("Please enter a valid URL");
         return;
       }
     }
-
     setPasswordError("");
     setAvatarError("");
-
+    setIsLoading(true);
     try {
       const users = loadUsers();
-
       const newUser = {
         id: Date.now(),
         username: formData.username.trim(),
         email: formData.email.trim(),
-        password: formData.password, // 
+        password: formData.password, //
         avatarUrl: formData.avatarUrl.trim(),
       };
-
       users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users));
-      localStorage.setItem("currentUser", JSON.stringify(newUser));
-
+      saveUsers(users);
       onRegister(newUser);
-
-      // Reset form
       setFormData({
         username: "",
         email: "",
@@ -89,11 +80,12 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
         passwordRepeat: "",
         avatarUrl: "",
       });
-
       closeActiveModal();
     } catch (error) {
       console.error("Error registering user:", error);
       alert("There was an error registering your account. Please try again.");
+    } finally{
+      setIsLoading(false);
     }
   };
 
@@ -105,6 +97,9 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
       buttonText="Sign Up"
       activeModal={activeModal}
       onSubmit={handleRegisterSubmit}
+      isLoading={loading}
+      loadingMessage="Creating account..."
+      customSpinner={<div className="moon-spinner small" />}
     >
       <label className="modal__label">
         Username

@@ -1,4 +1,4 @@
-import { useMoon } from "../contexts/moonSignContext";
+import { useMoon } from "../../contexts/moonSignContext"
 
 export default function MoonSignDisplay() {
   const { moonSign, moonImage, moonDescription, error, loading } = useMoon();

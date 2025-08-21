@@ -12,9 +12,6 @@ export function mockRegister({
   username,
   password,
   email,
-  dateOfBirth,
-  timeOfBirth,
-  locationOfBirth,
   avatarUrl,
 }) {
   const users = loadUsers();
@@ -33,27 +30,22 @@ export function mockRegister({
     username,
     password,
     email,
-    dateOfBirth,
-    timeOfBirth,
-    locationOfBirth,
     avatarUrl,
   };
 
   users.push(newUser);
   saveUsers(users);
 
-  const loggedInUser = mockSignIn({ username, password });
-
-  return {
-    username: loggedInUser.username,
-    avatarUrl: loggedInUser.avatarUrl,
-  };
+  // Automatically log in after register
+  return newUser;
 }
 
 export function mockSignIn({ username, password }) {
   const users = loadUsers();
   const user = users.find(
-    (u) => u.username === username && u.password === password
+    (u) =>
+      u.username.trim().toLowerCase() === username.trim().toLowerCase() &&
+      u.password === password
   );
   if (!user) {
     throw new Error("Invalid username or password");

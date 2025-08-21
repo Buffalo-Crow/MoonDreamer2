@@ -8,18 +8,24 @@ export function DreamProvider({ children }) {
   const [dreamToDelete, setDreamToDelete] = useState(null);
   const [filterSign, setFilterSign] = useState("ALL");
 
-  const updateDream = (updatedDream) => {
-    setDreams((prevDreams) =>
-      prevDreams.map((dream) =>
-        dream && dream.id === updatedDream.id ? updatedDream : dream
-      )
-    );
-    setSelectedDream((prevSelected) =>
-      prevSelected && prevSelected.id === updatedDream.id
-        ? updatedDream
-        : prevSelected
-    );
-  };
+ const updateDream = (updatedDream) => {
+  if (!updatedDream || !updatedDream.id) {
+    console.error("updateDream called with invalid dream:", updatedDream);
+    return;
+  }
+
+  setDreams((prevDreams) =>
+    prevDreams.map((dream) =>
+      dream && dream.id === updatedDream.id ? updatedDream : dream
+    )
+  );
+
+  setSelectedDream((prevSelected) =>
+    prevSelected && prevSelected.id === updatedDream.id
+      ? updatedDream
+      : prevSelected
+  );
+};
 
   return (
     <DreamContext.Provider

@@ -53,51 +53,52 @@ function DreamModal({
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setIsLoading(true);
+ async function handleSubmit(e) {
+  e.preventDefault();
+  setIsLoading(true);
 
-    try {
-      let moonSign = formData.moonSign;
+  try {
+    let moonSign = formData.moonSign;
 
-      if (
-        !isEditMode ||
-        dreamToEdit.date !== formData.date ||
-        dreamToEdit.location !== formData.location
-      ) {
-        moonSign = await getMoonSignFromLocationAndDate(
-          formData.location,
-          formData.date
-        );
-      }
-
-      const dreamData = {
-        ...formData,
-        moonSign,
-        id: isEditMode ? dreamToEdit.id : crypto.randomUUID(),
-      };
-
-      console.log(isEditMode ? "Editing dream:" : "Adding dream:", dreamData);
-
-      onSubmitDream(dreamData);
-      closeActiveModal();
-
-      // Clear form after submission
-      setFormData({
-        date: "",
-        summary: "",
-        categories: "",
-        tags: "",
-        location: "",
-        moonSign: "",
-      });
-    } catch (error) {
-      console.error("Failed to fetch moon sign:", error);
-      alert("Failed to submit dream. Please check the location and try again.");
-    } finally {
-      setIsLoading(false);
+    if (
+      !isEditMode ||
+      dreamToEdit.date !== formData.date ||
+      dreamToEdit.location !== formData.location
+    ) {
+      moonSign = await getMoonSignFromLocationAndDate(
+        formData.location,
+        formData.date
+      );
     }
+
+    const dreamData = {
+      ...formData,
+      moonSign,
+      id: isEditMode ? dreamToEdit.id : crypto.randomUUID(),
+    };
+
+    console.log(isEditMode ? "Editing dream:" : "Adding dream:", dreamData);
+
+    // Pass to parent (App.jsx)
+    onSubmitDream(dreamData);
+    closeActiveModal();
+
+    // Reset form
+    setFormData({
+      date: "",
+      summary: "",
+      categories: "",
+      tags: "",
+      location: "",
+      moonSign: "",
+    });
+  } catch (error) {
+    console.error("Failed to fetch moon sign:", error);
+    alert("Failed to submit dream. Please check the location and try again.");
+  } finally {
+    setIsLoading(false);
   }
+}
 
   return (
     <ModalWithForm

@@ -15,7 +15,7 @@ export function loadDreamsForUser(username) {
 
 export function saveDreamForUser(username, dream) {
   const allDreams = loadAllUserDreams();
-  const newDream = { ...dream, id: Date.now() };
+  const newDream = { ...dream, id: dream.id || crypto.randomUUID() };
   const userDreams = allDreams[username] || [];
   allDreams[username] = [...userDreams, newDream];
   saveAllUserDreams(allDreams);
@@ -25,24 +25,31 @@ export function saveDreamForUser(username, dream) {
 export function updateDreamForUser(username, updatedDream) {
   const allDreams = loadAllUserDreams();
   const userDreams = allDreams[username] || [];
- console.log("Updating dream:", updatedDream);
+
+  console.log("Updating dream:", updatedDream);
   console.log("Existing dreams:", userDreams);
 
   let savedDream;
-  const updatedDreams = userDreams.map((dream) => {
-    if (dream.id === updatedDream.id) {
-      savedDream = { ...dream, ...updatedDream };
-      return savedDream;
-    }
-    return dream;
-  }).filter(Boolean);
+  const updatedDreams = userDreams
+    .map((dream) => {
+      if (dream.id === updatedDream.id) {
+        savedDream = { ...dream, ...updatedDream };
+        return savedDream;
+      }
+      return dream;
+    })
+    .filter(Boolean);
+
+  if (!savedDream) {
+    console.warn("No matching dream found to update:", updatedDream);
+    return null; // <-- important to prevent undefined errors
+  }
 
   allDreams[username] = updatedDreams;
   saveAllUserDreams(allDreams);
 
-  return savedDream; 
+  return savedDream;
 }
-
 
 export function deleteDreamForUser(username, dreamId) {
   const allDreams = loadAllUserDreams();
@@ -53,13 +60,14 @@ export function deleteDreamForUser(username, dreamId) {
     console.warn(`No dreams found for user: ${username}`);
     return [];
   }
-   console.log("Dreams for user before deletion:", allDreams[username]);
+  console.log("Dreams for user before deletion:", allDreams[username]);
   console.log("dreamId to delete:", dreamId);
 
   allDreams[username] = allDreams[username].filter(
-    (d) => Number(d.id) !== Number(dreamId)
+    (d) => d.id !== dreamId // ✅ string comparison
   );
 
   saveAllUserDreams(allDreams);
+  console.log("Dreams after deletion:", allDreams[username]);
   return allDreams[username];
 }
