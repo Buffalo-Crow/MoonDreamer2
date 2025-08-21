@@ -1,0 +1,12 @@
+{ 
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0"
+  },
+  "scripts": {
+  "start": "node index.js",
+  "build-frontend": "cd ../frontend-react && npm install && npm run build",
+  "start:render": "npm run build-frontend && node index.js"
+}
+}
