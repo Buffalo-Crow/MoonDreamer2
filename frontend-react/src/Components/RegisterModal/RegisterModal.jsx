@@ -3,9 +3,8 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { loadUsers, saveUsers } from "../../utils/mockAuth";
 
 function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
-  
-  const [loading, setIsLoading]= useState(false);
-  
+  const [loading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -84,7 +83,7 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
     } catch (error) {
       console.error("Error registering user:", error);
       alert("There was an error registering your account. Please try again.");
-    } finally{
+    } finally {
       setIsLoading(false);
     }
   };

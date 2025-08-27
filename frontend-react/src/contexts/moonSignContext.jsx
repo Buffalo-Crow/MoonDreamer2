@@ -15,7 +15,7 @@ export function MoonProvider({ children }) {
   useEffect(() => {
     async function fetchMoonSign() {
       setLoading(true);
-      const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      const today = new Date().toISOString().slice(0, 10); 
       const cached = getCachedMoonSign(today);
 
       if (cached) {

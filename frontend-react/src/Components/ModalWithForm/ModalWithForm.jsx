@@ -43,7 +43,7 @@ function ModalWithForm({
           </form>
         </div>
 
-        {/* 🌙 Full-page overlay spinner */}
+        {/* Full-page overlay spinner */}
         {isLoading && (
           <div className="modal__spinner-overlay">
             <div className="moon-spinner" title="Loading..." />

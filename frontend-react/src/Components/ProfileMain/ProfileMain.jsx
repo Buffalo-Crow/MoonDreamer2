@@ -22,7 +22,6 @@ function ProfileMain({ handleDeleteDreamClick, onEditDreamClick, dreams }) {
 
   return (
     <div className={`profile-main ${selectedDream ? "dream-selected" : ""}`}>
-      {/* Only hide sidebar if on mobile AND dream is selected */}
       {!(isMobile && selectedDream) && (
         <ZodiacSidebar onSelectSign={setSelectedSign} />
       )}

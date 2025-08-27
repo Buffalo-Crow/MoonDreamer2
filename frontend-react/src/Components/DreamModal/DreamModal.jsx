@@ -79,11 +79,11 @@ function DreamModal({
 
     console.log(isEditMode ? "Editing dream:" : "Adding dream:", dreamData);
 
-    // Pass to parent (App.jsx)
+    
     onSubmitDream(dreamData);
     closeActiveModal();
 
-    // Reset form
+  
     setFormData({
       date: "",
       summary: "",

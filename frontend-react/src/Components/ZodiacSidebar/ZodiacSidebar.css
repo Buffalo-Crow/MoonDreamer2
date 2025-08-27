@@ -38,10 +38,6 @@
   transition: transform 0.2s ease;
 }
 
-.zodiac-sidebar__sign-icon {
-  /* display: flex; */
-  /* justify-content: center; */
-}
 .zodiac-sidebar__sign-button {
   font-size: 14px;
   background-color: transparent;

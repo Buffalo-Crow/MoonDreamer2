@@ -1,16 +1,38 @@
-# MoonDreamer
+# MoonDreamer 🌕
 
-MoonDreamer is a FullStack Application that incorporates Astrology by capturing
-the moon sign that your dream occured in. This is an integrated Dream Journal with
-a twist. By logging your dreams over time, you will begin to see trends during different
-signs & begin to understand how the moon affects your dream world.
+⚡️MoonDreamer is a  fully responsive FullStack Web Application that incorporates Astrology & Dreaming by capturing the sign of the moon/your moon sign, on the date that the dream occured in. This is an integrated Dream Journal with a twist. By logging your dreams over time, you will begin to see trends during different signs & come to understand how the moon affects your dream world.⚡️
+
+📲 Mobile First design 
+
+
+
+
+
+
+[View the Figma Here](https://www.figma.com/design/9Chcns71Wv9uLNY1Sazu2M/MoonDreamer?node-id=0-1&p=f&t=K3yptP3DJfLqbuDY-0)
 
 [ZZZZZ](https://media1.tenor.com/m/YivnomWU15EAAAAd/sweet-dreams.gif)
 
-## [BackEnd Repo](https://github.com/Buffalo-Crow/backend-moondreamer/tree/main)
 
-## Technologies Used
+## Technologies Used 🌕
+Vite and React 
+JavaScript 
+HTML & CSS - Flexbox, Grid, Media Queries
+Express & NodeJS
+REST API 
+Render
 
-## View The Live Site Here
+##  [View The Live Site Here 🌕](https://moondreamer2app.onrender.com/)
+This app was deployed using Render
 
-## Watch the Tutorial on MoonDreamer
+## [Watch the Tutorial on MoonDreamer 🌕](https://youtu.be/yn9L4oHZtUY)
+
+### Plans for improvement
+-  💫 Create a full backend using MongoDB and refactor the code accordingly. 
+-  ✨ Add a feature to collect birth data to populate a whole Astrology Chart.
+-  ⭐️ Social Media like qualities where users can interact with one another and share their dreams, comment, and like.
+-  💫 Refine search capabilities to include tags and categories.
+-  ✨ AI integration for added user experience.
+-  ⭐️ Offer in app purchases for Dream Analysis.
+
+

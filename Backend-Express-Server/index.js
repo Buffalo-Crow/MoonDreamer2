@@ -21,12 +21,15 @@ app.use((req, res, next) => {
 app.use("/api", moonApi);
 
 // Serve React frontend
-const frontendPath = path.join(__dirname, "../frontend-react/dist");
-app.use(express.static(frontendPath));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
-});
+if (process.env.NODE_ENV === "production") {
+  const frontendPath = path.join(__dirname, "../frontend-react/dist");
+  app.use(express.static(frontendPath));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+}
 
 // Start server
 const PORT = process.env.PORT || 3001;

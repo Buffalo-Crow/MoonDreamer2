@@ -120,7 +120,7 @@ function App() {
 
   function handleSignOut(e) {
     e.preventDefault();
-    setCurrentUser(null); // clears user and localStorage
+    setCurrentUser(null); 
     closeModal();
     navigate("/");
   }
@@ -161,7 +161,6 @@ function App() {
   };
   const handleSignOutClick = () => openModal("sign-out");
 
-  // --- JSX ---
   return (
     <div className="app">
       <MoonProvider>
