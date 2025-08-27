@@ -132,6 +132,8 @@ function App() {
     closeModal();
   }
 
+
+  // Profile Update Handler
   function handleProfileUpdate(updatedFields) {
     const updatedUser = { ...currentUser, ...updatedFields };
 
