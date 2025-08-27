@@ -3,9 +3,9 @@
 ⚡️MoonDreamer is a  fully responsive FullStack Web Application that incorporates Astrology & Dreaming by capturing the sign of the moon/your moon sign, on the date that the dream occured in. This is an integrated Dream Journal with a twist. By logging your dreams over time, you will begin to see trends during different signs & come to understand how the moon affects your dream world.⚡️
 
 📲 Mobile First design 
-![Mobile View](./frontend-react/src/assets/images/IMG_4046.jpg "MoonDreamer Mobile View")
-![Mobile View](./frontend-react/src/assets/images/IMG_4049.jpg "MoonDreamer Mobile View")
-![Mobile View](./frontend-react/src/assets/images/IMG_4050.jpg "MoonDreamer Mobile View")
+![Mobile View](./frontend-react/src/assets/images/IMG_4046.jpg "MoonDreamer Mobile View"){:width="300px" height="200px"}
+![Mobile View](./frontend-react/src/assets/images/IMG_4049.jpg "MoonDreamer Mobile View"){:width="300px" height="200px"}
+![Mobile View](./frontend-react/src/assets/images/IMG_4050.jpg "MoonDreamer Mobile View"){:width="300px" height="200px"}
 
 [View the Figma Here](https://www.figma.com/design/9Chcns71Wv9uLNY1Sazu2M/MoonDreamer?node-id=0-1&p=f&t=K3yptP3DJfLqbuDY-0)
 
