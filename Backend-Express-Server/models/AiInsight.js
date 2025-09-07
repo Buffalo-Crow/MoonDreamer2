@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const AiInsightSchema = new mongoose.Schema({
+const aiInsightSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -42,4 +42,4 @@ const AiInsightSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("AiInsight", AiInsightSchema);
+module.exports = mongoose.model("aiInsight", aiInsightSchema);

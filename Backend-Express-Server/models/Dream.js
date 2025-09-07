@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
+const validator = require()
 
-const DreamSchema = new mongoose.Schema({
+const dreamSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: false,
+    required: true,
   },
 
   date: {
@@ -53,4 +54,4 @@ const DreamSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("dream", DreamSchema);
+module.exports = mongoose.model("dream", dreamSchema);
