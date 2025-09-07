@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const validator = require()
+const validator = require("validator");
 
 const dreamSchema = new mongoose.Schema({
   userId: {
