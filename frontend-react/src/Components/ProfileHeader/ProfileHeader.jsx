@@ -23,7 +23,7 @@ function ProfileHeader({ handleEditProfileClick }) {
         <img
           onClick={handleEditProfileClick}
           className="profile__avatar"
-          src={currentUser.avatarUrl || Avatar}
+          src={currentUser.avatar || Avatar}
           alt=""
         />
 

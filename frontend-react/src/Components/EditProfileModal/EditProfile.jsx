@@ -7,20 +7,20 @@ function EditProfile({
   isOpen,
   closeActiveModal,
   activeModal,
-  onCompleteProfile,
+  onEditProfileData,
 }) {
   const { currentUser } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     username: "",
-    avatarUrl: "",
+    avatar: "",
   });
 
   useEffect(() => {
     if (isOpen && currentUser) {
       setFormData({
         username: currentUser.username || "",
-        avatarUrl: currentUser.avatarUrl || "",
+        avatar: currentUser.avatar || "",
       });
     }
   }, [isOpen, currentUser]);
@@ -32,11 +32,9 @@ function EditProfile({
 
   const handleEditProfileSubmit = (e) => {
     e.preventDefault();
-    onCompleteProfile({
-      username: formData.username,
-      avatarUrl: formData.avatarUrl,
+    onEditProfileData({
+      ...formData,
     });
-    closeActiveModal();
   };
 
   return (
@@ -65,9 +63,9 @@ function EditProfile({
         <input
           className="modal__input"
           type="url"
-          name="avatarUrl"
+          name="avatar"
           placeholder="Image URL"
-          value={formData.avatarUrl}
+          value={formData.avatar}
           required
           onChange={handleEditProfileChange}
         />

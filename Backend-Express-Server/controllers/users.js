@@ -1,8 +1,8 @@
-const bcrypt = require("bcryptjs");
 const User = require("../models/User");
-const CREATED = require("../utils/errors/errors");
+const bcrypt = require("bcryptjs");
 const BadRequestError = require("../utils/errorClasses/badRequest");
 const NotFoundError = require("../utils/errorClasses/notFound");
+const ConflictError = require("../utils/errorClasses/conflict");
 
 const getCurrentUser = (req, res, next) => {
   const { _id: userId } = req.user;
@@ -12,6 +12,7 @@ const getCurrentUser = (req, res, next) => {
     .then((user) => {
       res.status(200).send(user);
     })
+
     .catch((err) => {
       if (err.name === "CastError") {
         return next(new BadRequestError("Invalid user ID format"));
@@ -23,40 +24,31 @@ const getCurrentUser = (req, res, next) => {
     });
 };
 
-const createUser = (req, res, next) => {
+const signup = async (req, res, next ) => {
   const { username, email, password, avatar } = req.body;
   if (!email || !password) {
-    return next(new BadRequestError("Email and password are required"));
+    next(new BadRequestError("Email and password are required"));
+    return;
   }
-
-  bcrypt.hash(password, 10).then((hash) => {
-    User.create({
-      username,
-      email,
-      password: hash,
-      avatar,
+  bcrypt
+    .hash(password, 10)
+    .then((hash) => User.create({ username, email, password: hash, avatar }))
+    .then((user) => {
+      const userObject = user.toObject();
+      delete userObject.password;
+      res.status(201).send(userObject);
     })
-      .then((user) => {
-        res.status(CREATED).send({
-          _id: user._id,
-          username: user.username,
-          email: user.email,
-          avatar: user.avatar,
-        });
-      })
-      .catch((err) => {
-        if (err.code === 11000) {
-          return res
-            .status(409)
-            .send({ message: "User with this email already exists" });
-        }
-        if (err.name === "ValidationError") {
-          return next(new BadRequestError("Invalid Request"));
-        }
-        return next(err);
-      });
-  });
-};
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "ValidationError") {
+        return next(new BadRequestError("Invalid Request"));
+      }
+      if (err.code === 11000) {
+        return next(new ConflictError("Email already exists"));
+      }
+      return next(err);
+    });
+  }
 
 const updateUser = (req, res, next) => {
   const { username, avatar } = req.body;
@@ -84,7 +76,7 @@ const updateUser = (req, res, next) => {
 };
 
 module.exports = {
-  createUser,
+  signup,
   getCurrentUser,
   updateUser,
 };

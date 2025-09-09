@@ -18,5 +18,5 @@ createRoot(document.getElementById("root")).render(
       </ModalProvider>
     </UserProvider>
   </BrowserRouter>
-  </StrictMode>
+   </StrictMode> 
 );
