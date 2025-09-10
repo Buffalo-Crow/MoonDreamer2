@@ -5,7 +5,7 @@ import HeaderLogoRight from "../../assets/MoonRight.svg";
 function Header() {
   return (
     <>
-      <div className="header">
+      <header className="header">
         <img
           className="header__logo"
           src={HeaderLogoLeft}
@@ -17,7 +17,7 @@ function Header() {
           src={HeaderLogoRight}
           alt="pink moon logo"
         />
-      </div>
+      </header>
     </>
   );
 }

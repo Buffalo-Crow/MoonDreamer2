@@ -20,9 +20,9 @@ export function MoonProvider({ children }) {
       const today = new Date().toISOString().slice(0, 10);
 
       // 1️⃣ Check cache first
+
       const cached = getCachedMoonSign(today);
-      if (cached && cached.moonSign) {
-        if (!isMounted) return;
+      if (cached && cached.moonSign && cached.moonSign !== "Unknown") {
         setMoonSign(cached.moonSign);
         setMoonImage(cached.moonImage);
         setMoonDescription(cached.moonDescription);

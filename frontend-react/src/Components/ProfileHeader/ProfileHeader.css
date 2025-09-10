@@ -29,9 +29,9 @@
 }
 
 .profile__avatar {
-  height: 50px;
   border-radius: 180px;
-  width: 50px;
+  width: 75px;
+  height: 75px;
   display: block;
 }
 
@@ -47,8 +47,8 @@
   }
 
   .profile__avatar {
-    height: 36px;
-    width: 36px;
+    height: 50px;
+    width: 50px;
   }
 
   .profile-header__logo {
@@ -63,8 +63,8 @@
   }
 
   .profile__avatar {
-    height: 30px;
-    width: 30px;
+    height: 50px;
+    width: 50px;
   }
 
   .profile-header__logo {

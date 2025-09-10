@@ -13,18 +13,15 @@ import DreamModal from "../DreamModal/DreamModal.jsx";
 import EditProfile from "../EditProfileModal/EditProfile.jsx";
 import SignOutModal from "../SignOutModal/SignOutModal.jsx";
 import DeleteDreamModal from "../DeleteDreamModal/DeleteDreamModal.jsx";
-import {
-  loadDreamsForUser,
-  saveDreamForUser,
-  deleteDreamForUser,
-  updateDreamForUser,
-} from "../../utils/localDreamStorage";
+
+import {createDream, fetchDreams, deleteDream, editDreams} from "../../utils/dreamApi.js";
 import { signin, signOut, register, getUserInfo} from "../../utils/auth.js";
 import { MoonProvider } from "../../contexts/moonSignContext.jsx";
 import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute.jsx";
 import { DreamContext } from "../../contexts/dreamContext.jsx";
 import { UserContext } from "../../contexts/userContext.jsx";
 import { editProfile } from "../../utils/api.js";
+import { clearMoonSignCache } from "../../utils/moonSignUtils.js";
 
 function App() {
   const {
@@ -51,15 +48,20 @@ useEffect(() => {
   if (storedUser) {
     try {
       parsedUser = JSON.parse(storedUser);
-      setCurrentUser(parsedUser); // immediate restore
+      // attach token here
+      setCurrentUser({ ...parsedUser, token });
     } catch (err) {
       console.warn("Failed to parse stored user:", err);
       localStorage.removeItem("currentUser");
       localStorage.removeItem("jwtToken");
     }
   }
+
   getUserInfo()
-    .then((user) => setCurrentUser(user))
+    .then((user) => {
+      // attach token from localStorage
+      setCurrentUser({ ...user, token });
+    })
     .catch((err) => {
       console.error("Failed to restore user:", err);
       localStorage.removeItem("currentUser");
@@ -70,12 +72,17 @@ useEffect(() => {
 
 // ---------- Sync dreams when user changes ----------
 useEffect(() => {
-  if (currentUser?.username) {
-    const userDreams = loadDreamsForUser(currentUser.username);
-    setDreams(userDreams);
-  } else {
+  if (!currentUser) {
     setDreams([]);
+    return;
   }
+
+  fetchDreams()
+    .then((dreams) => setDreams(dreams))
+    .catch((err) => {
+      console.error("Failed to load dreams:", err);
+      setDreams([]);
+    });
 }, [currentUser, setDreams]);
 
 // ---------- Persist currentUser ----------
@@ -88,41 +95,39 @@ useEffect(() => {
 }, [currentUser]);
 
   // ---------- Dream Handlers ----------
-  const handleAddDream = (newDream) => {
-    if (!currentUser?.username) return;
-    saveDreamForUser(currentUser.username, newDream);
-    setDreams((prev) => [newDream, ...prev]);
-  };
+  const handleAddDream =  async (newDream) => {
+    try {
+    const savedDream = await createDream(newDream);
+    setDreams((prev) => [savedDream, ...prev]);
+  } catch (err) {
+    console.error("Failed to save dream:", err);
+  }
+};
 
-  function handleEditDream(updatedDreamData) {
-    if (!currentUser) return;
-    const updatedDream = updateDreamForUser(
-      currentUser.username,
-      updatedDreamData
-    );
-    if (!updatedDream) {
-      console.error("Updated dream is invalid:", updatedDreamData);
-      alert("Failed to update dream. Make sure it exists before editing.");
-      return;
-    }
-    updateDream(updatedDream);
+  async function handleEditDream(updatedDreamData) {
+  try {
+    const updatedDream = await updateDream(updatedDreamData._id, updatedDreamData);
+    editDream(updatedDream);
     closeModal(activeModal);
     setDreamBeingEdited(null);
+  } catch (err) {
+    console.error("Failed to update dream:", err);
   }
+}
 
-  const handleDeleteDream = () => {
-    if (!dreamToDelete || !currentUser?.username) return;
-    const updatedDreams = deleteDreamForUser(
-      currentUser.username,
-      dreamToDelete.id
-    );
-    setDreams(updatedDreams);
+  const handleDeleteDream = async () => {
+  if (!dreamToDelete) return;
+  try {
+    await deleteDream(dreamToDelete._id);
+    setDreams((prev) => prev.filter((d) => d._id !== dreamToDelete._id));
     closeModal(activeModal);
     setSelectedDream(null);
     setDreamToDelete(null);
     navigate("/profile");
-  };
-
+  } catch (err) {
+    console.error("Failed to delete dream:", err);
+  }
+};
 
 const handleSignIn = ({ email, password }) => {
   signin(email, password)
@@ -168,6 +173,7 @@ function handleSignOut() {
   signOut(); // handles both user + token
   setCurrentUser(null);
   navigate("/");
+  clearMoonSignCache();
   closeModal(activeModal);
 }
 

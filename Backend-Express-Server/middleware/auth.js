@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { UnauthorizedError } = require("../utils/errorClasses/unauthorized"); // your custom error class
+const  UnauthorizedError  = require("../utils/errorClasses/unauthorized"); // your custom error class
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const tokenAuthorization = (req, res, next) => {

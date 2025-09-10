@@ -1,5 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL;
-import {getToken} from "./token";
+
 
 function checkResponse(res) {
   if (res.ok) {
@@ -9,11 +9,12 @@ function checkResponse(res) {
 }
 
 function editProfile({ name, avatar }) {
-  return fetch(`${API_URL}/users/me`, {
+  const token = localStorage.getItem("jwtToken");
+  return fetch(`${API_URL}/api/users/me`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${getToken()}`,
+      authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       name,

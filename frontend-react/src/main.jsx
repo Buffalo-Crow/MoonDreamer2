@@ -8,7 +8,7 @@ import { ModalProvider } from "./contexts/modalContext";
 import { DreamProvider } from "./contexts/dreamContext";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+ 
   <BrowserRouter>
     <UserProvider>
       <ModalProvider>
@@ -18,5 +18,5 @@ createRoot(document.getElementById("root")).render(
       </ModalProvider>
     </UserProvider>
   </BrowserRouter>
-   </StrictMode> 
+ 
 );

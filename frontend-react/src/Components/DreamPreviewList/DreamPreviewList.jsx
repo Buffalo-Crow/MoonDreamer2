@@ -21,7 +21,7 @@ function DreamPreviewList({ onSelectDream }) {
       <ul className="dream-preview-list">
         {displayedDreams.map((dream) => (
           <li
-            key={dream.id}
+            key={dream.id || dream._id}
             className="dream-preview"
             onClick={() => onSelectDream(dream)}
           >
@@ -36,7 +36,9 @@ function DreamPreviewList({ onSelectDream }) {
               <p className="dream-preview__description">
                 {dream.summary.substring(0, 100)}...
               </p>
-              <span className="dream-preview__date">{dream.date}</span>
+              <span className="dream-preview__date">
+                {new Date(dream.date).toLocaleDateString()}
+              </span>
             </div>
           </li>
         ))}
