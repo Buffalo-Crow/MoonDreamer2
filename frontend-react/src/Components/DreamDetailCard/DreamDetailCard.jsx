@@ -38,7 +38,7 @@ function DreamDetailCard({
           <p className="dream-detail__moon-sign">Moon-Sign: {dream.moonSign}</p>
           <p className="dream-detail__categories">Categories: {dream.categories}</p>
           <p className="dream-detail__tags">Tags: {dream.tags}</p>
-          {token && <AIInsights dreamId={dream._id} token={token} />}
+        <AIInsights dreamId={dream._id} token={currentUser?.token} />
         </div>
       </div>
 

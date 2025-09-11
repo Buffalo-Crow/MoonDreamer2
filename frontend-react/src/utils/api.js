@@ -8,7 +8,7 @@ function checkResponse(res) {
   return Promise.reject(`Error: ${res.status}`);
 }
 
-function editProfile({ name, avatar }) {
+function editProfile({ username, avatar }) {
   const token = localStorage.getItem("jwtToken");
   return fetch(`${API_URL}/api/users/me`, {
     method: "PATCH",
@@ -17,7 +17,7 @@ function editProfile({ name, avatar }) {
       authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      name,
+      username,
       avatar,
     }),
   }).then((res) => checkResponse(res));

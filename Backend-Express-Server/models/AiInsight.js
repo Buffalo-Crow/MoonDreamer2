@@ -30,16 +30,21 @@ const aiInsightSchema = new mongoose.Schema({
 
   model: {
     type: String,
-    enum: ["gpt-3.5-turbo", "gpt-4"],
-    default: "gpt-3.5-turbo",
+    required: true,
   },
-
+  moonSign:{
+    type: String,
+    default: null,
+  },
+  
   version: {
     type: Number,
     default: 1,
   },
 
   createdAt: { type: Date, default: Date.now },
+
+
 });
 
 module.exports = mongoose.model("aiInsight", aiInsightSchema);

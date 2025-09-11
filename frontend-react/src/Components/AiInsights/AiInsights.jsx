@@ -2,54 +2,43 @@ import "./AiInsights.css";
 import { useState } from "react";
 import { fetchAIInsight } from "../../utils/aiInsights";
 
-function AIInsights({ dreamId, token }) {
-  const [aiSummary, setAiSummary] = useState("");
+function AIInsights({ dreamId }) {
+  const [aiResult, setAiResult] = useState("");
   const [loading, setLoading] = useState(false);
-  const [scope, setScope] = useState("single"); // single / user-pattern / community
-
+  const [error, setError ]= useState(null);
   const handleGenerate = async () => {
-    setLoading(true);
-    setAiSummary("");
 
-    try {
-      const result = await fetchAIInsight(scope, dreamId, token);
-      setAiSummary(result);
-    } catch {
-      setAiSummary("Failed to generate AI insights.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  setError(null);
+  try {
+    const result = await fetchAIInsight("single", dreamId);
+    setAiResult(result);
+  } catch (err) {
+    setError("Failed to generate insight. Try again later.")
+    console.error("AI insight error:", err);
+  } finally{
+    setLoading(false);
+  }
+};
 
   return (
-    <div className="ai-insights-container">
-      <div className="scope-select">
-        {["single", "user-pattern", "community"].map((option) => (
-          <label key={option} style={{ marginRight: "1rem" }}>
-            <input
-              type="radio"
-              name="scope"
-              value={option}
-              checked={scope === option}
-              onChange={() => setScope(option)}
-            />{" "}
-            {option.replace("-", " ").toUpperCase()}
-          </label>
-        ))}
-      </div>
-
-      <button className ="ai-insights-button"onClick={handleGenerate} disabled={loading} style={{ marginTop: "0.5rem" }}>
-        {loading ? "Generating..." : "Get AI Insights"}
+   
+    <div className="ai-insights">
+      <button className="ai-insights-button"onClick={handleGenerate} disabled={loading}>
+        {loading ? "Generating..." : "Generate AI Insight"}
       </button>
 
-      {aiSummary && (
-        <div style={{ marginTop: "1rem", whiteSpace: "pre-wrap" }}>
-          <strong>AI Insights:</strong>
-          <p>{aiSummary}</p>
+      {error && <p className="error">{error}</p>}
+
+      {aiResult && (
+        <div className="ai-result">
+          <h4>AI Insight</h4>
+          <p>{aiResult}</p>
         </div>
       )}
     </div>
   );
 }
+
 
 export default AIInsights;

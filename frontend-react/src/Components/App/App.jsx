@@ -42,25 +42,29 @@ function App() {
 useEffect(() => {
   const storedUser = localStorage.getItem("currentUser");
   const token = localStorage.getItem("jwtToken");
-  if (!token) return;
+
+  if (!token) {
+    setCurrentUser(null);
+    return;
+  }
 
   let parsedUser = null;
+
   if (storedUser) {
     try {
       parsedUser = JSON.parse(storedUser);
-      // attach token here
-      setCurrentUser({ ...parsedUser, token });
+      setCurrentUser({ ...parsedUser, token }); 
     } catch (err) {
       console.warn("Failed to parse stored user:", err);
       localStorage.removeItem("currentUser");
       localStorage.removeItem("jwtToken");
+      setCurrentUser(null);
     }
   }
 
   getUserInfo()
     .then((user) => {
-      // attach token from localStorage
-      setCurrentUser({ ...user, token });
+      setCurrentUser({ ...user, token }); 
     })
     .catch((err) => {
       console.error("Failed to restore user:", err);
@@ -70,7 +74,8 @@ useEffect(() => {
     });
 }, [setCurrentUser]);
 
-// ---------- Sync dreams when user changes ----------
+
+// Sync dreams when user changes 
 useEffect(() => {
   if (!currentUser) {
     setDreams([]);
@@ -85,7 +90,7 @@ useEffect(() => {
     });
 }, [currentUser, setDreams]);
 
-// ---------- Persist currentUser ----------
+// Persist currentUser
 useEffect(() => {
   if (currentUser) {
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
@@ -94,7 +99,9 @@ useEffect(() => {
   }
 }, [currentUser]);
 
-  // ---------- Dream Handlers ----------
+
+
+  // Dream Handlers
   const handleAddDream =  async (newDream) => {
     try {
     const savedDream = await createDream(newDream);
@@ -129,6 +136,22 @@ useEffect(() => {
   }
 };
 
+
+// Register Sign in and sign out handlers 
+const handleRegister = ({ username, email, password, avatar }) => {
+ register({ username, email, password, avatar })
+   .then(() => signin(email, password)) // auto-login after register
+   .then(() => getUserInfo())
+   .then((user) => {
+     setCurrentUser(user);
+     closeModal(activeModal);
+     navigate("/profile");
+   })
+   .catch((err) => {
+     console.error("Registration flow error:", err);
+   });
+};
+
 const handleSignIn = ({ email, password }) => {
   signin(email, password)
     .then(() => getUserInfo())
@@ -142,33 +165,6 @@ const handleSignIn = ({ email, password }) => {
     });
 };
 
- 
-
-const handleEditProfileData = ({ name, avatar }) => {
-    editProfile({ name, avatar })
-      .then((res) => {
-        console.log(res);
-        setCurrentUser(res.data);
-        closeModal(activeModal);
-      })
-      .catch((err) => console.log(err));
-  };
-
- const handleRegister = ({ username, email, password, avatar }) => {
-  register({ username, email, password, avatar })
-    .then(() => signin(email, password)) // auto-login after register
-    .then(() => getUserInfo())
-    .then((user) => {
-      setCurrentUser(user);
-      closeModal(activeModal);
-      navigate("/profile");
-    })
-    .catch((err) => {
-      console.error("Registration flow error:", err);
-    });
-};
-
-
 function handleSignOut() {
   signOut(); // handles both user + token
   setCurrentUser(null);
@@ -176,6 +172,22 @@ function handleSignOut() {
   clearMoonSignCache();
   closeModal(activeModal);
 }
+ 
+
+// edit User Profile
+
+const handleEditProfileData = ({ username, avatar }) => {
+    editProfile({ username, avatar })
+      .then((res) => {
+        console.log(res.data);
+        setCurrentUser(res.data);
+        closeModal(activeModal);
+      })
+      .catch((err) => console.log(err));
+  };
+
+
+
 
 
   // ---------- Modal handlers ----------
