@@ -1,6 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-
 function checkResponse(res) {
   if (res.ok) {
     return res.json();

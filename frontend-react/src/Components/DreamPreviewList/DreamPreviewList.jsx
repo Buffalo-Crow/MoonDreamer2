@@ -34,7 +34,7 @@ function DreamPreviewList({ onSelectDream }) {
                 />
               </div>
               <p className="dream-preview__description">
-                {dream.summary.substring(0, 100)}...
+                {dream.summary.substring(0, 75)}...
               </p>
               <span className="dream-preview__date">
                 {new Date(dream.date).toLocaleDateString()}

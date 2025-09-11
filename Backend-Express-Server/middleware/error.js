@@ -1,4 +1,4 @@
-const { INTERNAL_SERVER_ERROR } = require("../utils/errors/errors");
+const INTERNAL_SERVER_ERROR = 500;
 
 function errorHandler(err, req, res, next) {
   console.error(err);

@@ -6,7 +6,7 @@ const client = new Anthropic({
 
 const generateAIText = async (
   content,
-  model = "claude-3-sonnet-20240229", // real Anthropic model ID
+  model = "claude-3-sonnet-20240229", 
   scope = "single",
   maxTokens = 500
 ) => {
@@ -14,7 +14,7 @@ const generateAIText = async (
 
   if (scope === "single") {
     systemPrompt =
-      "You are an AI that analyzes a single dream. Summarize the dream and highlight key themes based on the Moon sign.";
+      "You are an AI that analyzes a single dream, the anaylsis will be seen through a spiritual yet grounded lens Summarize the dream in 2-3 paragrahs with 3-4 sentences each and highlight key themes based on the Moon sign the dream occured in. ";
   } else if (scope === "user-pattern") {
     systemPrompt =
       "You are an AI that analyzes multiple dreams from the same user. Identify recurring patterns and trends over time, focusing on the correlation between the Moon signs and dream content.";

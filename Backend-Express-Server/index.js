@@ -18,7 +18,7 @@ if (!process.env.JWT_SECRET) {
   process.exit(1);
 }
 
-// ----- Connect to MongoDB -----
+//  Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
@@ -44,10 +44,9 @@ app.use("/api/users", userRoutes);
 app.use("/api/dreams", dreamRoutes);
 app.use("/api/insights", aiInsightRoutes);
 
-// Error handling middleware
 app.use(errorHandler);
 
-// Serve React frontend
+// Serve React frontend Render Deployment
 if (process.env.NODE_ENV === "production") {
   const frontendPath = path.join(__dirname, "../frontend-react/dist");
   app.use(express.static(frontendPath));
@@ -57,7 +56,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// Start server
+// Start server Render
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-

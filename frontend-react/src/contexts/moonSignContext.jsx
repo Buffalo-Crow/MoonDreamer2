@@ -13,14 +13,11 @@ export function MoonProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true; // prevent state updates after unmount
+    let isMounted = true; 
 
     async function fetchMoonSign() {
       setLoading(true);
       const today = new Date().toISOString().slice(0, 10);
-
-      // 1️⃣ Check cache first
-
       const cached = getCachedMoonSign(today);
       if (cached && cached.moonSign && cached.moonSign !== "Unknown") {
         setMoonSign(cached.moonSign);
@@ -29,8 +26,6 @@ export function MoonProvider({ children }) {
         setLoading(false);
         return;
       }
-
-      // 2️⃣ Fetch from backend API
       try {
         const res = await fetch("/api/moon/moon-sign");
         const data = await res.json();
@@ -48,8 +43,6 @@ export function MoonProvider({ children }) {
         setMoonSign(moonData.moonSign);
         setMoonImage(moonData.moonImage);
         setMoonDescription(moonData.moonDescription);
-
-        // Save to cache
         saveMoonSignToCache(today, moonData);
       } catch (err) {
         if (!isMounted) return;
@@ -64,7 +57,7 @@ export function MoonProvider({ children }) {
     fetchMoonSign();
 
     return () => {
-      isMounted = false; // cleanup for double mount in dev
+      isMounted = false;
     };
   }, []);
 
