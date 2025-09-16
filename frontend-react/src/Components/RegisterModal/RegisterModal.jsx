@@ -19,13 +19,48 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
   };
 
- const handleSubmit = async (e) => {
-    e.preventDefault();
- onRegister({...formData});
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    let avatarUrl = "";
+
+    if (formData.avatar instanceof File) {
+      const form = new FormData();
+      form.append("avatar", formData.avatar);
+
+      const res = await fetch("http://localhost:3001/api/upload-avatar", {
+        method: "POST",
+        body: form,
+        credentials: "include",
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Upload failed");
+
+      avatarUrl = data.avatar; // Cloudinary URL
+    } else {
+      throw new Error("Avatar file is required");
+    }
+
+    // Pass URL to onRegister
+    onRegister({
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+      passwordRepeat: formData.passwordRepeat,
+      avatar: avatarUrl, // only URL stored
+    });
+  } catch (err) {
+    console.error(err);
+    setBackendError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <ModalWithForm
@@ -109,12 +144,16 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
         Avatar
         <input
           className="modal__input"
-          type="url"
+          type="file"
+          accept="image/*"
           id="avatar"
           name="avatar"
-          placeholder="Image URL"
-          value={formData.avatar}
-          onChange={handleChange}
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) {
+              setFormData((prev) => ({ ...prev, avatar: file })); 
+            }
+          }}
         />
         {avatarError && <span className="modal__error">{avatarError}</span>}
       </label>

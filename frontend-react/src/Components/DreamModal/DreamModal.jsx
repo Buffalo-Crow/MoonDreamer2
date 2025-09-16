@@ -101,7 +101,7 @@ function DreamModal({
   return (
     <ModalWithForm
       isOpen={isOpen}
-      title={isEditMode ? "Edit your dream entry" : "Add your dream entry"}
+      title={isEditMode ? "Edit your dream" : "Add dream"}
       closeActiveModal={closeActiveModal}
       buttonText={isEditMode ? "Save Changes" : "Add Dream"}
       activeModal={activeModal}

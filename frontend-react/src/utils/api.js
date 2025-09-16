@@ -23,5 +23,17 @@ function editProfile({ username, avatar }) {
 }
 
 
+function editDream(dreamId, { title, summary, date, moonSign }) {
+  const token = localStorage.getItem("jwtToken");
+  return fetch(`${API_URL}/api/dreams/${dreamId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ title, summary, date, moonSign }),
+  }).then((res) => checkResponse(res));
+}
 
-export{ checkResponse, editProfile };
+
+export{ checkResponse, editProfile, editDream };
