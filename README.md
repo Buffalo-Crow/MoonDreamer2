@@ -11,11 +11,14 @@
 
 ## Technologies Used 🌕
 Vite and React 
-JavaScript 
 HTML & CSS - Flexbox, Grid, Media Queries
+JavaScript 
 Express & NodeJS
+MONGO DB & MONGODB Atlas
 REST API 
-Render
+Anthropic AI
+Render Deployed 
+
 
 ##  [View The Live Site Here 🌕](https://moondreamer2app.onrender.com/)
 This app was deployed using Render
@@ -23,11 +26,9 @@ This app was deployed using Render
 ## [Watch the Tutorial on MoonDreamer 🌕](https://youtu.be/yn9L4oHZtUY)
 
 ### Plans for improvement
--  💫 Create a full backend using MongoDB and refactor the code accordingly. 
 -  ✨ Add a feature to collect birth data to populate a whole Astrology Chart.
 -  ⭐️ Social Media like qualities where users can interact with one another and share their dreams, comment, and like.
 -  💫 Refine search capabilities to include tags and categories.
--  ✨ AI integration for added user experience.
 -  ⭐️ Offer in app purchases for Dream Analysis.
 
 

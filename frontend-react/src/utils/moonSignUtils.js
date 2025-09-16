@@ -10,3 +10,7 @@ export function saveMoonSignToCache(date, moonSignData) {
   cache[date] = moonSignData;
   localStorage.setItem(MOON_SIGN_KEY, JSON.stringify(cache));
 }
+
+export function clearMoonSignCache() {
+  localStorage.removeItem("moonSignCache");
+}

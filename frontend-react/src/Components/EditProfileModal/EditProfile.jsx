@@ -7,20 +7,20 @@ function EditProfile({
   isOpen,
   closeActiveModal,
   activeModal,
-  onCompleteProfile,
+  onEditProfileData,
 }) {
   const { currentUser } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     username: "",
-    avatarUrl: "",
+    avatar: "",
   });
 
   useEffect(() => {
     if (isOpen && currentUser) {
       setFormData({
         username: currentUser.username || "",
-        avatarUrl: currentUser.avatarUrl || "",
+        avatar: currentUser.avatar || "",
       });
     }
   }, [isOpen, currentUser]);
@@ -30,14 +30,37 @@ function EditProfile({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleEditProfileSubmit = (e) => {
-    e.preventDefault();
-    onCompleteProfile({
+  const handleEditProfileSubmit = async (e) => {
+  e.preventDefault();
+  if (!formData.avatar && !formData.username) return;
+
+  let avatarUrl = currentUser.avatar; // keep existing if no new file
+
+  try {
+    if (formData.avatar instanceof File) {
+      const form = new FormData();
+      form.append("avatar", formData.avatar);
+
+      const res = await fetch("http://localhost:3001/api/upload-avatar", {
+        method: "POST",
+        body: form,
+        credentials: "include",
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Upload failed");
+      avatarUrl = data.avatar;
+    }
+
+   
+    onEditProfileData({
       username: formData.username,
-      avatarUrl: formData.avatarUrl,
+      avatar: avatarUrl,
     });
-    closeActiveModal();
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   return (
     <ModalWithForm
@@ -64,14 +87,15 @@ function EditProfile({
         Avatar
         <input
           className="modal__input"
-          type="url"
-          name="avatarUrl"
-          placeholder="Image URL"
-          value={formData.avatarUrl}
+          type="file"
+          accept="image/*"
           required
-          onChange={handleEditProfileChange}
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) setFormData((prev) => ({ ...prev, avatar: file }));
+          }}
         />
-      </label>{" "}
+      </label>
     </ModalWithForm>
   );
 }

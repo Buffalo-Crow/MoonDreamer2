@@ -13,17 +13,15 @@ import DreamModal from "../DreamModal/DreamModal.jsx";
 import EditProfile from "../EditProfileModal/EditProfile.jsx";
 import SignOutModal from "../SignOutModal/SignOutModal.jsx";
 import DeleteDreamModal from "../DeleteDreamModal/DeleteDreamModal.jsx";
-import {
-  loadDreamsForUser,
-  saveDreamForUser,
-  deleteDreamForUser,
-  updateDreamForUser,
-} from "../../utils/localDreamStorage";
-import { mockSignIn } from "../../utils/mockAuth.js";
+
+import {createDream, fetchDreams, deleteDream, editDreams} from "../../utils/dreamApi.js";
+import { signin, signOut, register, getUserInfo} from "../../utils/auth.js";
 import { MoonProvider } from "../../contexts/moonSignContext.jsx";
 import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute.jsx";
 import { DreamContext } from "../../contexts/dreamContext.jsx";
 import { UserContext } from "../../contexts/userContext.jsx";
+import { editProfile } from "../../utils/api.js";
+import { clearMoonSignCache } from "../../utils/moonSignUtils.js";
 
 function App() {
   const {
@@ -40,115 +38,159 @@ function App() {
   const [dreamBeingEdited, setDreamBeingEdited] = useState(null);
   const navigate = useNavigate();
 
-  // Load user from localStorage on first mount
-  useEffect(() => {
-    const storedUser = localStorage.getItem("currentUser");
-    if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
-    }
-  }, [setCurrentUser]);
+ 
+useEffect(() => {
+  const storedUser = localStorage.getItem("currentUser");
+  const token = localStorage.getItem("jwtToken");
 
-  // Sync dreams when user changes
-  useEffect(() => {
-    if (currentUser?.username) {
-      const userDreams = loadDreamsForUser(currentUser.username);
-      setDreams(userDreams);
-    } else {
-      setDreams([]);
-    }
-  }, [currentUser, setDreams]);
-
-  // Keep localStorage in sync with currentUser
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
-    } else {
-      localStorage.removeItem("currentUser");
-    }
-  }, [currentUser]);
-
-  // --- Dream Handlers ---
-  const handleAddDream = (newDream) => {
-    if (!currentUser?.username) return;
-    saveDreamForUser(currentUser.username, newDream);
-    setDreams((prevDreams) => [newDream, ...prevDreams]);
-  };
-
-  function handleEditDream(updatedDreamData) {
-    if (!currentUser) return;
-
-    const updatedDream = updateDreamForUser(
-      currentUser.username,
-      updatedDreamData
-    );
-
-    if (!updatedDream) {
-      console.error("Updated dream is invalid:", updatedDreamData);
-      alert("Failed to update dream. Make sure it exists before editing.");
-      return;
-    }
-
-    updateDream(updatedDream);
-    closeModal(activeModal);
-    setDreamBeingEdited(null);
+  if (!token) {
+    setCurrentUser(null);
+    return;
   }
 
-  const handleDeleteDream = () => {
-    if (!dreamToDelete || !currentUser?.username) return;
+  let parsedUser = null;
 
-    const updatedDreams = deleteDreamForUser(
-      currentUser.username,
-      dreamToDelete.id
-    );
-    setDreams(updatedDreams);
+  if (storedUser) {
+    try {
+      parsedUser = JSON.parse(storedUser);
+      setCurrentUser({ ...parsedUser, token }); 
+    } catch (err) {
+      console.warn("Failed to parse stored user:", err);
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("jwtToken");
+      setCurrentUser(null);
+    }
+  }
+
+  getUserInfo()
+    .then((user) => {
+      setCurrentUser({ ...user, token }); 
+    })
+    .catch((err) => {
+      console.error("Failed to restore user:", err);
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("jwtToken");
+      setCurrentUser(null);
+    });
+}, [setCurrentUser]);
+
+
+// Sync dreams when user changes 
+useEffect(() => {
+  if (!currentUser) {
+    setDreams([]);
+    return;
+  }
+
+  fetchDreams()
+    .then((dreams) => setDreams(dreams))
+    .catch((err) => {
+      console.error("Failed to load dreams:", err);
+      setDreams([]);
+    });
+}, [currentUser, setDreams]);
+
+// Persist currentUser
+useEffect(() => {
+  if (currentUser) {
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  } else {
+    localStorage.removeItem("currentUser");
+  }
+}, [currentUser]);
+
+
+
+  // Dream Handlers
+  const handleAddDream =  async (newDream) => {
+    try {
+    const savedDream = await createDream(newDream);
+    setDreams((prev) => [savedDream, ...prev]);
+  } catch (err) {
+    console.error("Failed to save dream:", err);
+  }
+};
+
+  async function handleEditDream(updatedDreamData) {
+  try {
+    const updatedDream = await updateDream(updatedDreamData._id, updatedDreamData);
+    editDream(updatedDream);
+    closeModal(activeModal);
+    setDreamBeingEdited(null);
+  } catch (err) {
+    console.error("Failed to update dream:", err);
+  }
+}
+
+  const handleDeleteDream = async () => {
+  if (!dreamToDelete) return;
+  try {
+    await deleteDream(dreamToDelete._id);
+    setDreams((prev) => prev.filter((d) => d._id !== dreamToDelete._id));
     closeModal(activeModal);
     setSelectedDream(null);
     setDreamToDelete(null);
     navigate("/profile");
+  } catch (err) {
+    console.error("Failed to delete dream:", err);
+  }
+};
+
+
+// Register Sign in and sign out handlers 
+const handleRegister = ({ username, email, password, avatar }) => {
+ register({ username, email, password, avatar })
+   .then(() => signin(email, password)) // auto-login after register
+   .then(() => getUserInfo())
+   .then((user) => {
+     setCurrentUser(user);
+     closeModal(activeModal);
+     navigate("/profile");
+   })
+   .catch((err) => {
+     console.error("Registration flow error:", err);
+   });
+};
+
+const handleSignIn = ({ email, password }) => {
+  signin(email, password)
+    .then(() => getUserInfo())
+    .then((user) => {
+      setCurrentUser(user);
+      closeModal(activeModal);
+      navigate("/profile");
+    })
+    .catch((err) => {
+      console.error("Login error:", err);
+    });
+};
+
+function handleSignOut() {
+  signOut(); // handles both user + token
+  setCurrentUser(null);
+  navigate("/");
+  clearMoonSignCache();
+  closeModal(activeModal);
+}
+ 
+
+// edit User Profile
+
+const handleEditProfileData = ({ username, avatar }) => {
+    editProfile({ username, avatar })
+      .then((res) => {
+        console.log(res.data);
+        setCurrentUser(res.data);
+        closeModal(activeModal);
+      })
+      .catch((err) => console.log(err));
   };
 
-  // --- Auth Handlers ---
-  function handleSignIn(credentials) {
-    try {
-      const user = mockSignIn(credentials);
-      setCurrentUser(user);
-      navigate("/home");
-    } catch (e) {
-      alert(e.message);
-    }
-  }
-
-  function handleSignOut(e) {
-    e.preventDefault();
-    setCurrentUser(null); 
-    closeModal();
-    navigate("/");
-  }
-
-  function handleRegister(user) {
-     localStorage.setItem("currentUser", JSON.stringify(user)); 
-    setCurrentUser(user);
-    navigate("/home");
-    closeModal();
-  }
 
 
-  // Profile Update Handler
-  function handleProfileUpdate(updatedFields) {
-    const updatedUser = { ...currentUser, ...updatedFields };
 
-    const users = JSON.parse(localStorage.getItem("mockUsers")) || [];
-    const updatedUsers = users.map((u) =>
-      u.username === updatedUser.username ? updatedUser : u
-    );
 
-    localStorage.setItem("mockUsers", JSON.stringify(updatedUsers));
-    localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-    setCurrentUser(updatedUser);
-    openModal(null);
-  }
-
-  // --- Modal Handlers ---
+  // ---------- Modal handlers ----------
   const handleRegisterClick = () => openModal("register");
   const handleLoginClick = () => openModal("login");
   const handleEditProfileClick = () => openModal("edit-profile");
@@ -210,43 +252,43 @@ function App() {
             }
           />
         </Routes>
-      </MoonProvider>
 
-      {/* Modals */}
-      <EditProfile
-        closeActiveModal={closeModal}
-        isOpen={activeModal === "edit-profile"}
-        currentUser={currentUser}
-        onCompleteProfile={handleProfileUpdate}
-      />
-      <DeleteDreamModal
-        onConfirm={handleDeleteDream}
-        closeActiveModal={closeModal}
-        isOpen={activeModal === "delete-dream"}
-      />
-      <DreamModal
-        isOpen={activeModal === "add-dream" || activeModal === "edit-dream"}
-        closeActiveModal={closeModal}
-        onSubmitDream={
-          activeModal === "add-dream" ? handleAddDream : handleEditDream
-        }
-        dreamToEdit={activeModal === "edit-dream" ? dreamBeingEdited : null}
-      />
-      <LoginModal
-        onSignIn={handleSignIn}
-        closeActiveModal={closeModal}
-        isOpen={activeModal === "login"}
-      />
-      <RegisterModal
-        onRegister={handleRegister}
-        closeActiveModal={closeModal}
-        isOpen={activeModal === "register"}
-      />
-      <SignOutModal
-        onConfirm={handleSignOut}
-        isOpen={activeModal === "sign-out"}
-        closeActiveModal={closeModal}
-      />
+        {/* Modals */}
+        <EditProfile
+          closeActiveModal={closeModal}
+          isOpen={activeModal === "edit-profile"}
+          currentUser={currentUser}
+          onEditProfileData={handleEditProfileData}
+        />
+        <DeleteDreamModal
+          onConfirm={handleDeleteDream}
+          closeActiveModal={closeModal}
+          isOpen={activeModal === "delete-dream"}
+        />
+        <DreamModal
+          isOpen={activeModal === "add-dream" || activeModal === "edit-dream"}
+          closeActiveModal={closeModal}
+          onSubmitDream={
+            activeModal === "add-dream" ? handleAddDream : handleEditDream
+          }
+          dreamToEdit={activeModal === "edit-dream" ? dreamBeingEdited : null}
+        />
+        <LoginModal
+          onSignIn={handleSignIn}
+          closeActiveModal={closeModal}
+          isOpen={activeModal === "login"}
+        />
+        <RegisterModal
+          onRegister={handleRegister}
+          closeActiveModal={closeModal}
+          isOpen={activeModal === "register"}
+        />
+        <SignOutModal
+          onConfirm={handleSignOut}
+          isOpen={activeModal === "sign-out"}
+          closeActiveModal={closeModal}
+        />
+      </MoonProvider>
     </div>
   );
 }

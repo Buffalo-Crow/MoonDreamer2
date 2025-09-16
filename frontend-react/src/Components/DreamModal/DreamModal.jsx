@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { getMoonSignFromLocationAndDate } from "../../utils/getMoonSignFromLocationAndDate";
+import { formatDateForInput } from "../../utils/dateHelper";
 
 function DreamModal({
   isOpen,
@@ -23,30 +24,28 @@ function DreamModal({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      console.log("Editing dream:", dreamToEdit);
-      if (isEditMode && dreamToEdit && dreamToEdit.id) {
-        setFormData({
-          date: dreamToEdit.date || "",
-          summary: dreamToEdit.summary || "",
-          categories: dreamToEdit.categories || "",
-          tags: dreamToEdit.tags || "",
-          location: dreamToEdit.location || "",
-          moonSign: dreamToEdit.moonSign || "",
-        });
-      } else {
-        // Clear the form on open if adding new dream
-        setFormData({
-          date: "",
-          summary: "",
-          categories: "",
-          tags: "",
-          location: "",
-          moonSign: "",
-        });
-      }
-    }
-  }, [isOpen, isEditMode, dreamToEdit]);
+  if (!isOpen) return;
+
+  if (dreamToEdit) {
+    setFormData({
+      date: formatDateForInput( dreamToEdit.date || ""),
+      summary: dreamToEdit.summary || "",
+      categories: dreamToEdit.categories || "",
+      tags: dreamToEdit.tags || "",
+      location: dreamToEdit.location || "",
+      moonSign: dreamToEdit.moonSign || "",
+    });
+  } else {
+    setFormData({
+      date: "",
+      summary: "",
+      categories: "",
+      tags: "",
+      location: "",
+      moonSign: "",
+    });
+  }
+}, [isOpen, dreamToEdit]);
 
   function handleDreamChange(e) {
     const { name, value } = e.target;
@@ -74,7 +73,6 @@ function DreamModal({
     const dreamData = {
       ...formData,
       moonSign,
-      id: isEditMode ? dreamToEdit.id : crypto.randomUUID(),
     };
 
     console.log(isEditMode ? "Editing dream:" : "Adding dream:", dreamData);
@@ -103,7 +101,7 @@ function DreamModal({
   return (
     <ModalWithForm
       isOpen={isOpen}
-      title={isEditMode ? "Edit your dream entry" : "Add your dream entry"}
+      title={isEditMode ? "Edit your dream" : "Add dream"}
       closeActiveModal={closeActiveModal}
       buttonText={isEditMode ? "Save Changes" : "Add Dream"}
       activeModal={activeModal}

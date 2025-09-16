@@ -8,7 +8,7 @@ import { UserContext } from "../../contexts/userContext";
 function ProfileHeader({ handleEditProfileClick }) {
   const { currentUser } = useContext(UserContext);
   return (
-    <div className="profile-header">
+    <header className="profile-header">
       <div className="profile-header__content">
         <h1 className="profile-header__title">MOON DREAMER</h1>
         <Link to="/home">
@@ -23,13 +23,13 @@ function ProfileHeader({ handleEditProfileClick }) {
         <img
           onClick={handleEditProfileClick}
           className="profile__avatar"
-          src={currentUser.avatarUrl || Avatar}
+          src={currentUser.avatar || Avatar}
           alt=""
         />
 
         <p className="profile-header__username">{currentUser.username}</p>
       </div>
-    </div>
+    </header>
   );
 }
 

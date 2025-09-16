@@ -5,7 +5,7 @@
   font-weight: 400;
   font-display: swap;
   font-display: normal;
-  src: url(./src/assets/Itim-Regular.ttf) format("truetype");
+  src: url(./src/assets/fonts/Itim-Regular.ttf) format("truetype");
 }
 
 :root {

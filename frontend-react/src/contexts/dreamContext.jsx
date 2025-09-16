@@ -9,19 +9,19 @@ export function DreamProvider({ children }) {
   const [filterSign, setFilterSign] = useState("ALL");
 
  const updateDream = (updatedDream) => {
-  if (!updatedDream || !updatedDream.id) {
+  if (!updatedDream || !updatedDream._id) {
     console.error("updateDream called with invalid dream:", updatedDream);
     return;
   }
 
   setDreams((prevDreams) =>
     prevDreams.map((dream) =>
-      dream && dream.id === updatedDream.id ? updatedDream : dream
+      dream && dream._id === updatedDream._id ? updatedDream : dream
     )
   );
 
   setSelectedDream((prevSelected) =>
-    prevSelected && prevSelected.id === updatedDream.id
+    prevSelected && prevSelected._id === updatedDream._id
       ? updatedDream
       : prevSelected
   );
