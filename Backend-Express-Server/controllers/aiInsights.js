@@ -1,5 +1,5 @@
-const Dream = require("../models/dream");
-const AIInsight = require("../models/aiInsight");
+const Dream = require("../models/dreams");
+const AIInsight = require ("../models/insights");
 const { generateAIText } = require("../services/aiService");
 
 // define models in one place so they match your schema

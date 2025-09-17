@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/members");
 const bcrypt = require("bcryptjs");
 const BadRequestError = require("../utils/errorClasses/badRequest");
 const NotFoundError = require("../utils/errorClasses/notFound");

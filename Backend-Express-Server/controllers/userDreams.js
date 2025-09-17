@@ -1,4 +1,4 @@
-const Dream = require("../models/dream");
+const Dream = require("../models/dreams");
 const NotFoundError = require("../utils/errorClasses/notFound");
 const BadRequestError = require("../utils/errorClasses/badRequest");
 
