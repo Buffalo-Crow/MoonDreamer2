@@ -2,9 +2,10 @@
   "name": "moon-dreamer",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "build": "npm run build --prefix frontend-react",
-    "start": "npm run start --prefix backend-express-server",
-    "start:render": "npm run build && npm run start"
-  }
+ "scripts": {
+  "preinstall": "npm install --prefix frontend-react && npm install --prefix backend-express-server",
+  "build": "npm run build --prefix frontend-react",
+  "start": "npm run start --prefix backend-express-server",
+  "start:render": "npm run build && npm run start"
 }
+}   
