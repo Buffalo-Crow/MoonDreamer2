@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "build-frontend": "cd ../frontend-react && npm install && npm run build",
-    "start:render": "npm run build-frontend && node index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.61.0",

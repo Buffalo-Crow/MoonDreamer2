@@ -1,0 +1,10 @@
+{
+  "name": "moon-dreamer",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix backend-express-server && npm install --prefix frontend-react",
+    "build": "npm run build --prefix frontend-react",
+    "start": "node backend-express-server/index.js",
+    "start:render": "npm run install:all && npm run build && npm start"
+  }
+}
