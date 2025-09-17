@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "npm install --prefix frontend-react && npm install --prefix backend-express-server",
-    "build": "npm run build --prefix frontend-react",
-    "start": "npm run start --prefix backend-express-server",
-    "start:render": "npm run preinstall && npm run build && npm run start"
+    "install-all": "npm install --prefix frontend-react && npm install --prefix backend-express-server",
+    "build-frontend": "npm run build --prefix frontend-react",
+    "start-backend": "npm run start --prefix backend-express-server",
+    "start:render": "npm run install-all && npm run build-frontend && npm run start-backend"
   }
 }
-
