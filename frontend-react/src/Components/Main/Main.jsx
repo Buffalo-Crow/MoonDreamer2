@@ -1,5 +1,5 @@
 import "./Main.css";
-import MainLogo from "../../assets/Logo.svg";
+import MainLogo from "../../assets/logo.svg";
 
 function Main({ handleLoginClick, handleRegisterClick }) {
   return (

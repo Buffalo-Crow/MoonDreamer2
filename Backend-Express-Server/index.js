@@ -31,8 +31,10 @@ mongoose
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",             // dev
-  "https://moondreamer2app.onrender.com",      // prod
+  "http://localhost:5173",
+  "http://localhost:3001",
+  "https://moondreamer2.fly.dev",
+      
 ];
 
 app.use(
@@ -65,9 +67,10 @@ app.use("/api/insights", aiInsightRoutes);
 
 app.use(errorHandler);
 
-// Serve React frontend Render Deployment
+
 if (process.env.NODE_ENV === "production") {
-  const frontendPath = path.join(__dirname, "../frontend-react/dist");
+  const frontendPath = path.join(__dirname, "frontend-dist"); // <- matches Docker
+
   app.use(express.static(frontendPath));
 
   app.get("*", (req, res) => {
