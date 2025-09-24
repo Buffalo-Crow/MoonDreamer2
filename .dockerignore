@@ -1,5 +1,3 @@
 node_modules
-frontend-react/node_modules
-backend-express-server/node_modules
 dist
 .env
