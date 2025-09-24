@@ -1,6 +1,9 @@
 import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
+
 function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
   const [formData, setFormData] = useState({
     username: "",
@@ -15,6 +18,7 @@ function RegisterModal({ isOpen, closeActiveModal, activeModal, onRegister }) {
   const [avatarError, setAvatarError] = useState("");
   const [backendError, setBackendError] = useState("");
   const [usernameError, setUsernameError] = useState("");
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +36,7 @@ const handleSubmit = async (e) => {
       const form = new FormData();
       form.append("avatar", formData.avatar);
 
-      const res = await fetch("http://localhost:3001/api/upload-avatar", {
+      const res = await fetch(`${API_URL}/api/upload-avatar`, {
         method: "POST",
         body: form,
         credentials: "include",

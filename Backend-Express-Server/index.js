@@ -30,25 +30,28 @@ mongoose
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3001",
-  "https://moondreamer2.fly.dev",
+// const allowedOrigins = [
+//   "http://localhost:5173",   // local frontend
+//   "http://localhost:3001",   // local backend
+//   "https://moondreamer.app", // production site
+// ];
       
-];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, origin);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//   })
+// );
+
+app.use(cors({ origin: true, credentials: true }));
+
 app.use(express.json());
 
 // Log incoming requests

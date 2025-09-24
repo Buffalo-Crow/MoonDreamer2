@@ -3,6 +3,8 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/userContext";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
 function EditProfile({
   isOpen,
   closeActiveModal,
@@ -41,7 +43,7 @@ function EditProfile({
       const form = new FormData();
       form.append("avatar", formData.avatar);
 
-      const res = await fetch("http://localhost:3001/api/upload-avatar", {
+      const res = await fetch(`${API_URL}/api/upload-avatar`, {
         method: "POST",
         body: form,
         credentials: "include",
