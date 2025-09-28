@@ -20,9 +20,6 @@ Anthropic AI
 Render Deployed 
 
 
-##  [View The Live Site Here 🌕](https://moondreamer2app.onrender.com/)
-This app was deployed using Render
-
 ## [Watch the Tutorial on MoonDreamer 🌕](https://youtu.be/yn9L4oHZtUY)
 
 ### Plans for improvement
